@@ -128,7 +128,7 @@ export interface CAContainerThemeProps {
     z_index?: number;
 }
 
-export class CAContainerTheme {
+export class CAContainerTheme implements md.ref.css {
     private _z_index: number;
 
     constructor(
@@ -157,6 +157,26 @@ export class CAContainerTheme {
     static copyWith(theme: CAContainerThemeProps): CAContainerTheme {
         return new CAContainerTheme(theme.color, theme.elevation, theme.elevation_on_scroll, theme.z_index);
     }
+
+    public get css_vars(): md.ref.css_var {
+        return {
+            '--ca-container-color-light': this.color.light.hex,
+            '--ca-container-color-dark': this.color.dark.hex,
+            '--ca-container-elevation-light': md.ref.elevation.css(this.elevation).light,
+            '--ca-container-elevation-dark': md.ref.elevation.css(this.elevation).dark,
+            '--ca-container-elevation-on-scroll-light': md.ref.elevation.css(this.elevation_on_scroll).light,
+            '--ca-container-elevation-on-scroll-dark': md.ref.elevation.css(this.elevation_on_scroll).dark,
+            '--ca-container-z-index': this.z_index.toString(),
+
+            // Properties
+            '--ca-container-height': md.ref.dp_to_rem_string(CATheme.properties.container_height.dp),
+            '--ca-container-shape': md.ref.dp_to_rem_string(CATheme.properties.container_shape.dp),
+        }
+    }
+
+    public get inline_css(): string {
+        return md.ref.generate_style(this.css_vars);
+    }
 }
 
 export interface CAHeadlineThemeProps {
@@ -164,7 +184,7 @@ export interface CAHeadlineThemeProps {
     text_style?: md.sys.typescale;
 }
 
-export class CAHeadlineTheme {
+export class CAHeadlineTheme implements md.ref.css {
     constructor(
         public color: DynamicColor = md.sys.color.on_surface,
         public font: string = md.sys.typescale.title_large.font,
@@ -187,13 +207,29 @@ export class CAHeadlineTheme {
     static copyWith(theme: CAHeadlineThemeProps): CAHeadlineTheme {
         return new CAHeadlineTheme(theme.color, theme.text_style?.font, theme.text_style?.line_height, theme.text_style?.size, theme.text_style?.tracking, theme.text_style?.weight);
     }
+
+    public get css_vars(): md.ref.css_var {
+        return {
+            '--ca-headline-color-light': this.color.light.hex,
+            '--ca-headline-color-dark': this.color.dark.hex,
+            '--ca-headline-font': this.font,
+            '--ca-headline-line-height': md.ref.dp_to_rem_string(this.line_height),
+            '--ca-headline-size': md.ref.dp_to_rem_string(this.size),
+            '--ca-headline-tracking': md.ref.dp_to_rem_string(this.tracking),
+            '--ca-headline-weight': this.weight.toString(),
+        }
+    }
+
+    public get inline_css(): string {
+        return md.ref.generate_style(this.css_vars);
+    }
 }
 
 export interface CAColor {
     color?: DynamicColor;
 }
 
-export class CALeadingNavigationIconTheme {
+export class CALeadingNavigationIconTheme implements md.ref.css {
     constructor(
         public color: DynamicColor = md.sys.color.on_surface,
     ) { }
@@ -201,14 +237,36 @@ export class CALeadingNavigationIconTheme {
     static copyWith(theme: CAColor): CALeadingNavigationIconTheme {
         return new CALeadingNavigationIconTheme(theme.color);
     }
+
+    public get css_vars(): md.ref.css_var {
+        return {
+            '--ca-leading-navigation-icon-color-light': this.color.light.hex,
+            '--ca-leading-navigation-icon-color-dark': this.color.dark.hex,
+        }
+    }
+
+    public get inline_css(): string {
+        return md.ref.generate_style(this.css_vars);
+    }
 }
 
-export class CATrailingIconTheme {
+export class CATrailingIconTheme implements md.ref.css {
     constructor(
         public color: DynamicColor = md.sys.color.on_surface_variant,
     ) { }
 
     static copyWith(theme: CAColor): CATrailingIconTheme {
         return new CATrailingIconTheme(theme.color);
+    }
+
+    public get css_vars(): md.ref.css_var {
+        return {
+            '--ca-trailing-icon-color-dark': this.color.dark.hex,
+            '--ca-trailing-icon-color-light': this.color.light.hex,
+        }
+    }
+
+    public get inline_css(): string {
+        return md.ref.generate_style(this.css_vars);
     }
 }

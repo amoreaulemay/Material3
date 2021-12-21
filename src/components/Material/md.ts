@@ -2,11 +2,32 @@ import { Color, DynamicColor } from "./Color"
 
 export namespace md {
     export namespace ref {
-        export namespace elevation {
-            // export function shadow_px_value(elevation: md.sys.elevation): number {
-            //     return md.ref.dp_to_px(elevation);
-            // }
+        export function dp_to_rem_string(value: number): string {
+            return value * 0.0625 + 'rem';
+        }
 
+        export interface css_var {
+            [Key: string]: string;
+        }
+
+        export interface css {
+            readonly css_vars: css_var;
+            readonly inline_css: string;
+        }
+
+        export function generate_style(...css_vars: css_var[]): string {
+            let render: string = '';
+
+            css_vars.forEach((css_var) => {
+                for (let key in css_var) {
+                    render += key + ':' + css_var[key] + ';';
+                }
+            });
+
+            return render;
+        }
+
+        export namespace elevation {
             export interface css_style {
                 light: string;
                 dark: string;
@@ -16,8 +37,8 @@ export namespace md {
                 let rem_value = elevation * 0.0625;
 
                 return {
-                    light: `0rem 0rem ${rem_value}rem #${md.sys.color.shadow.light.color}`,
-                    dark: `0rem 0rem ${rem_value}rem #${md.sys.color.shadow.dark.color}`,
+                    light: `0rem 0rem ${rem_value}rem ${md.sys.color.shadow.light.hex}`,
+                    dark: `0rem 0rem ${rem_value}rem ${md.sys.color.shadow.dark.hex}`,
                 };
             }
         }

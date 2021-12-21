@@ -9,35 +9,35 @@ document.body.style.setProperty('--bg-color-dark', '#' + md.sys.color.background
 
 let app_theme = CenterAlignedTheme.copyWith({
   container_theme: CAContainerTheme.copyWith({
-    color: new DynamicColor(
-      Color.fromHex('FDB035'),
-      Color.fromHex('FCA311'),
-    ),
+    color: Color.dynamic({
+      light: Color.fromHex('FDB035'),
+      dark: Color.fromHex('FCA311'),
+    }),
   }),
   headline_theme: CAHeadlineTheme.copyWith({
-    color: new DynamicColor(
-      Color.fromHex('FFFFFF'),
-      Color.fromHex('FFFFFF'),
-    ),
+    color: Color.dynamic({
+      light: Color.fromHex('FFFFFF'),
+      dark: Color.fromHex('FFFFFF'),
+    }),
   }),
   leading_navigation_icon_theme: CALeadingNavigationIconTheme.copyWith({
-    color: new DynamicColor(
-      Color.fromHex('FFFFFF'),
-      Color.fromHex('FFFFFF'),
-    ),
+    color: Color.dynamic({
+      light: Color.fromHex('FFFFFF'),
+      dark: Color.fromHex('FFFFFF'),
+    }),
   }),
   trailing_icon_theme: CATrailingIconTheme.copyWith({
-    color: new DynamicColor(
-      Color.fromHex('FFFFFF'),
-      Color.fromHex('FFFFFF'),
-    ),
+    color: Color.dynamic({
+      light: Color.fromHex('FFFFFF'),
+      dark: Color.fromHex('FFFFFF'),
+    }),
   }),
 });
 
 </script>
 
 <template>
-  <CenterAligned :theme="app_theme" />
+  <CenterAligned :theme="app_theme" title="Test" />
 </template>
 
 <style>

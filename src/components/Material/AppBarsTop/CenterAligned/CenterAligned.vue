@@ -1,14 +1,17 @@
 <template>
-    <div class="container max-w-full flex items-center" :style="containerVars" :id="containerID">
-        <div class="shrink leading-navigation-icon"></div>
-        <div class="shrink h-full spacer"></div>
-        <div class="grow headline h-min" :style="headlineVars">
-            <h6>Hello</h6>
+    <div class="container fixed top-0 left-0 max-w-full flex items-center px-4" :style="theme.container_theme.inline_css" :id="containerID">
+        <div class="shrink min-w-[48px] min-h-[48px] relative">
+            <span class="material-icons absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 leading-icon" :style="theme.leading_navigation_icon_theme.inline_css">menu</span>
         </div>
-        <div class="shrink h-full spacer"></div>
-        <div class="shrink trailing-icon"></div>
+        <div class="flex-auto h-full spacer"></div>
+        <div class="flex-auto headline h-min text-center" :style="theme.headline_theme.inline_css">
+            {{ title }}
+        </div>
+        <div class="flex-auto h-full spacer"></div>
+        <div class="shrink min-w-[48px] min-h-[48px] relative">
+            <span class="material-icons absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 trailing-icon" :style="theme.trailing_icon_theme.inline_css">account_circle</span>
+        </div>
     </div>
-    <div style="height: 1000px; width: 10px; top: 50px; position: absolute"></div>
 </template>
 
 <script lang="ts">
@@ -24,46 +27,20 @@ export default defineComponent({
         theme: {
             type: Object as PropType<CenterAlignedTheme>,
             default: new CenterAlignedTheme(),
+        },
+        title: {
+            type: String,
+            required: false,
+        },
+        main_view_id: {
+            type: String,
+            required: false,
         }
     },
     computed: {
-        containerVars(): string {
-            let vars = [
-                `--surface-light: #${this.theme.container_theme.color.light.color}`,
-                `--surface-dark: #${this.theme.container_theme.color.dark.color}`,
-                '--elevation-light: ' + md.ref.elevation.css(this.theme.container_theme.elevation).light,
-                '--elevation-on-scroll-light: ' + md.ref.elevation.css(this.theme.container_theme.elevation_on_scroll).light,
-                `--elevation-dark: ${md.ref.elevation.css(this.theme.container_theme.elevation).dark}`,
-                `--elevation-on-scroll-dark: ${md.ref.elevation.css(this.theme.container_theme.elevation_on_scroll).dark}`,
-                `--border-radius: ${CATheme.properties.container_shape.rem}rem`,
-                `z-index: ${this.theme.container_theme.z_index}`,
-                `--container-height: ${CATheme.properties.container_height.rem}rem`,
-                `--left-right-padding: ${CATheme.properties.left_right_padding.rem}rem`,
-                `--spacer-width: ${CATheme.properties.padding_between_elements.rem}rem`,
-            ]
-
-            return vars.join(';');
-        },
         containerID(): string {
             return uuidv4();
         },
-        avatarVars(): string {
-            let vars: string[] = [
-                `--avatar-shape: ${CATheme.properties.avatar_shape.rem}rem`,
-                `--avatar-size: ${CATheme.properties.avatar_size.rem}rem`,
-            ];
-
-            return vars.join(';');
-        },
-        headlineVars(): string {
-            let vars: string[] = [
-                this.theme.headline_theme.css_style,
-                `--headline-color-light: #${this.theme.headline_theme.color.light.color}`,
-                `--headline-color-dark: #${this.theme.headline_theme.color.dark.color}`,
-            ];
-
-            return vars.join(';');
-        }
     },
     mounted() {
         window.addEventListener('scroll', this.onScroll);
@@ -73,7 +50,15 @@ export default defineComponent({
     },
     methods: {
         onScroll() {
-            if(window.scrollY === 0) {
+            let scroll = 0;
+
+            if (typeof this.main_view_id !== 'undefined') {
+                scroll = document.getElementById(this.main_view_id)?.scrollTop ?? 0;
+            } else {
+                scroll = window.scrollY;
+            }
+
+            if(scroll === 0) {
                 document.getElementById(this.containerID)?.classList.remove('on-scroll');
             } else {
                 document.getElementById(this.containerID)?.classList.add('on-scroll');
@@ -84,49 +69,59 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.on-scroll {
-    box-shadow: var(--elevation-on-scroll-light) !important;
+.container {
+    background: var(--ca-container-color-light);
+    box-shadow: var(--ca-container-elevation-light);
+    height: var(--ca-container-height);
+    border-radius: var(--ca-container-shape);
+    z-index: var(--ca-container-z-index);
 }
 
-div.container {
-    background: var(--surface-light);
-    box-shadow: var(--elevation-light);
-    border-radius: var(--border-radius);
-    height: var(--container-height);
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding-left: var(--left-right-padding);
-    padding-right: var(--left-right-padding);
+.container.on-scroll {
+    box-shadow: var(--ca-container-elevation-on-scroll-light) !important;
 }
 
-div.headline {
-    text-align: center;
-    color: var(--headline-color-light);
+.headline {
+    color: var(--ca-headline-color-light);
+    font-family: var(--ca-headline-font);
+    line-height: var(--ca-headline-line-height);
+    font-size: var(--ca-headline-size);
+    letter-spacing: var(--ca-headline-tracking);
+    font-weight: var(--ca-headline-weight);
 }
 
-div.spacer {
+.leading-icon {
+    color: var(--ca-leading-navigation-icon-color-light);
+}
+
+.trailing-icon {
+    color: var(--ca-trailing-icon-color-light);
+}
+
+.spacer {
     min-width: var(--spacer-width);
-}
 
-.avatar {
-    border-radius: var(--avatar-shape);
-    width: var(--avatar-size);
-    height: var(--avatar-height);
 }
-
 @media(prefers-color-scheme: dark) {
-    div.container {
-        background: var(--surface-dark);
-        box-shadow: var(--elevation-dark);
+    .container {
+        background: var(--ca-container-color-dark);
+        box-shadow: var(--ca-container-elevation-dark);
     }
 
-    div.headline {
-        color: var(--headline-color-dark);
+    .container.on-scroll {
+        box-shadow: var(--ca-container-elevation-on-scroll-dark);
     }
 
-    .on-scroll {
-        box-shadow: var(--elevation-on-scroll-dark) !important;
+    .headline {
+        color: var(--ca-headline-color-dark);
+    }
+
+    .leading-icon {
+        color: var(--ca-leading-navigation-icon-color-dark);
+    }
+
+    .trailing-icon {
+        color: var(--ca-trailing-icon-color-dark);
     }
 }
 </style>

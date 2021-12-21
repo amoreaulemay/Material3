@@ -1,3 +1,8 @@
+export interface DynamicColorProps {
+    light: Color,
+    dark: Color,
+}
+
 export class Color {
     static isHex(h: string): boolean {
         let a = parseInt(h.toLowerCase(), 16);
@@ -25,6 +30,10 @@ export class Color {
         }
     }
 
+    static dynamic(props: DynamicColorProps): DynamicColor {
+        return new DynamicColor(props.light, props.dark);
+    }
+
     public get color(): string {
         let b = this._color.toString(16);
 
@@ -34,6 +43,10 @@ export class Color {
 
         return b;
     }
+
+    public get hex(): string {
+        return '#' + this.color;
+    }
 }
 
 export class DynamicColor {
@@ -41,12 +54,4 @@ export class DynamicColor {
         public light: Color,
         public dark: Color,
     ) { }
-
-    public get foreground_css_class(): string {
-        return ` text-[#${this.light.color}] dark:text-[#${this.dark.color}] `;
-    }
-
-    public get background_css_class(): string {
-        return ` bg-[#${this.light.color}] dark:text-[#${this.dark.color}] `;
-    }
 }
