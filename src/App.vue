@@ -4,14 +4,17 @@ import { CAContainerTheme, CAHeadlineTheme, CALeadingNavigationIconTheme, CATrai
 import { Color, DynamicColor } from './components/Material/Color';
 import { md } from './components/Material/md';
 
-document.body.style.setProperty('--bg-color-light', '#' + md.sys.color.background.light.color);
-document.body.style.setProperty('--bg-color-dark', '#' + md.sys.color.background.dark.color);
+// document.body.style.setProperty('--bg-color-light', '#' + md.sys.color.background.light.color);
+// document.body.style.setProperty('--bg-color-dark', '#' + md.sys.color.background.dark.color);
+
+document.body.style.setProperty('--bg-color-dark', Color.shadeColor(Color.fromHex('14213D'), -40).hex);
+document.body.style.setProperty('--bg-color-light', Color.shadeColor(Color.fromHex('243B6E'), -40).hex);
 
 let app_theme = CenterAlignedTheme.copyWith({
   container_theme: CAContainerTheme.copyWith({
     color: Color.dynamic({
-      light: Color.fromHex('FDB035'),
-      dark: Color.fromHex('FCA311'),
+      light: Color.fromHex('243B6E'),
+      dark: Color.fromHex('14213D'),
     }),
   }),
   headline_theme: CAHeadlineTheme.copyWith({
