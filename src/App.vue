@@ -1,21 +1,53 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import CenterAligned from './components/Material/AppBarsTop/CenterAligned/CenterAligned.vue';
+import { CAContainerTheme, CAHeadlineTheme, CALeadingNavigationIconTheme, CATrailingIconTheme, CenterAlignedTheme } from './components/Material/AppBarsTop/CenterAligned/CenterAlignedTheme';
+import { Color, DynamicColor } from './components/Material/Color';
+import { md } from './components/Material/md';
+
+document.body.style.setProperty('--bg-color-light', '#' + md.sys.color.background.light.color);
+document.body.style.setProperty('--bg-color-dark', '#' + md.sys.color.background.dark.color);
+
+let app_theme = CenterAlignedTheme.copyWith({
+  container_theme: CAContainerTheme.copyWith({
+    color: new DynamicColor(
+      Color.fromHex('FDB035'),
+      Color.fromHex('FCA311'),
+    ),
+  }),
+  headline_theme: CAHeadlineTheme.copyWith({
+    color: new DynamicColor(
+      Color.fromHex('FFFFFF'),
+      Color.fromHex('FFFFFF'),
+    ),
+  }),
+  leading_navigation_icon_theme: CALeadingNavigationIconTheme.copyWith({
+    color: new DynamicColor(
+      Color.fromHex('FFFFFF'),
+      Color.fromHex('FFFFFF'),
+    ),
+  }),
+  trailing_icon_theme: CATrailingIconTheme.copyWith({
+    color: new DynamicColor(
+      Color.fromHex('FFFFFF'),
+      Color.fromHex('FFFFFF'),
+    ),
+  }),
+});
+
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <CenterAligned :theme="app_theme" />
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  background: var(--bg-color-light);
+}
+
+@media(prefers-color-scheme: dark) {
+  body {
+    background: var(--bg-color-dark);
+  }
 }
 </style>

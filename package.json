@@ -7,9 +7,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "uuid": "^8.3.2",
     "vue": "^3.2.25"
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.3",
     "@vitejs/plugin-vue": "^2.0.0",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.5",
