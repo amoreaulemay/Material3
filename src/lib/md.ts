@@ -15,6 +15,10 @@ export namespace md {
             readonly inline_css: string;
         }
 
+        export interface copy<T, U> {
+            copyWith(theme: T): U;
+        }
+
         export function generate_style(...css_vars: css_var[]): string {
             let render: string = '';
 

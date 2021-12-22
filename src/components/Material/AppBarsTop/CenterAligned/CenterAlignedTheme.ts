@@ -1,9 +1,21 @@
-import { DynamicColor } from "../../Color";
-import { md } from "../../md";
+import { DynamicColor } from "../../../../lib/Color";
+import { md } from "../../../../lib/md";
+import { staticImplements } from "../../../../lib/StaticImplements";
 
+/**
+ * The namespace used for the metrics of the `CenterAligned` theme. Contains both the primitives and the properties.
+ */
 export namespace CATheme {
 
+    /**
+     * Although this namespace is available globally, it shouldn't be used directly. Instantiated variables
+     * are created in `CATheme.properties` namespace, and can be modified. The `CAThemePrimitives` are used
+     * to create the theme properties variables only.
+     */
     export namespace CAThemePrimitives {
+        /**
+         * The base class for all properties in a `CenterAligned` theme.
+         */
         abstract class properties {
             constructor(
                 public dp: number,
@@ -89,18 +101,55 @@ export namespace CATheme {
         }
     }
 
+    /**
+     * The metrics of the `CenterAligned` top bar. These are `let` variables, so they can be modified as needed.
+     */
     export namespace properties {
+        /**
+         * The corner radius for the container.
+         */
         export let container_shape = new CAThemePrimitives.container_shape();
+
+        /**
+         * The height for the container.
+         */
         export let container_height = new CAThemePrimitives.container_height();
+
+        /**
+         * The size for the leading and the trailing icons.
+         */
         export let leading_trailing_icon_size = new CAThemePrimitives.leading_trailing_icon_size();
+
+        /**
+         * The corner radius for the avatar.
+         */
         export let avatar_shape = new CAThemePrimitives.avatar_shape();
+
+        /**
+         * The size of the avatar.
+         */
         export let avatar_size = new CAThemePrimitives.avatar_size();
+
+        /**
+         * The size of the left and right padding.
+         */
         export let left_right_padding = new CAThemePrimitives.left_right_padding();
+
+        /**
+         * The size of the padding between elements.
+         */
         export let padding_between_elements = new CAThemePrimitives.padding_between_elements();
+
+        /**
+         * The target size for touch screen events.
+         */
         export let target_size = new CAThemePrimitives.target_size();
     }
 }
 
+/**
+ * The interface used for named properties for `CenterAlignedTheme`.
+ */
 export interface CenterAlignedThemeProps {
     container_theme?: CAContainerTheme;
     headline_theme?: CAHeadlineTheme;
@@ -108,6 +157,31 @@ export interface CenterAlignedThemeProps {
     trailing_icon_theme?: CATrailingIconTheme;
 }
 
+/**
+ * This is the global theme for a `CenterAligned` component.
+ * 
+ * @remarks
+ * While the class constructor can directly be used, the static method `CenterAlignedTheme.copyWith()` is
+ * recommended as it copies all default parameters and only implements the ones specified.
+ * 
+ * @example
+ * ```
+ * let theme = CenterAlignedTheme({
+ *     container_theme: CAContainerTheme.copyWith({
+ *         color: Color.dynamic({
+ *             light: Color.fromHex('243B6E'),
+ *             dark: Color.fromHex('14213D'),
+ *         }),
+ *     }),
+ * });
+ * ```
+ * 
+ * @param container_theme - The theme for the container. See {@link CAContainerTheme `CAContainerTheme`}.
+ * @param headline_theme - The theme for the headline text. See {@link CAHeadlineTheme `CAHeadlineTheme`}.
+ * @param leading_navigation_icon_theme - The theme for the leading navigation icon. See {@link CALeadingNavigationIconTheme `CALeadingNavigationIconTheme`}.
+ * @param trailing_icon_theme - The theme for the trailing icon. See {@link CATrailingIconTheme `CATrailingIconTheme`}.
+ */
+@staticImplements<md.ref.copy<CenterAlignedThemeProps, CenterAlignedTheme>>()
 export class CenterAlignedTheme {
     constructor(
         public container_theme: CAContainerTheme = new CAContainerTheme(),
@@ -128,6 +202,7 @@ export interface CAContainerThemeProps {
     z_index?: number;
 }
 
+@staticImplements<md.ref.copy<CAContainerThemeProps, CAContainerTheme>>()
 export class CAContainerTheme implements md.ref.css {
     private _z_index: number;
 
@@ -171,6 +246,7 @@ export class CAContainerTheme implements md.ref.css {
             // Properties
             '--ca-container-height': md.ref.dp_to_rem_string(CATheme.properties.container_height.dp),
             '--ca-container-shape': md.ref.dp_to_rem_string(CATheme.properties.container_shape.dp),
+            '--ca-container-padding-between-elements': md.ref.dp_to_rem_string(CATheme.properties.padding_between_elements.dp),
         }
     }
 
@@ -184,6 +260,7 @@ export interface CAHeadlineThemeProps {
     text_style?: md.sys.typescale;
 }
 
+@staticImplements<md.ref.copy<CAHeadlineThemeProps, CAHeadlineTheme>>()
 export class CAHeadlineTheme implements md.ref.css {
     constructor(
         public color: DynamicColor = md.sys.color.on_surface,
@@ -193,16 +270,6 @@ export class CAHeadlineTheme implements md.ref.css {
         public tracking: number = md.sys.typescale.title_large.tracking,
         public weight: number = md.sys.typescale.title_large.weight,
     ) { }
-
-    public get css_style(): string {
-        let font_family: string = `font-family: ${this.font};`;
-        let line_height: string = `line-height: ${this.line_height * 0.0625}rem;`;
-        let font_size: string = `font-size: ${this.size * 0.0625}rem;`;
-        let letter_spacing: string = `letter-spacing: ${this.tracking * 0.0625}rem;`;
-        let font_weight: string = `font-weight: ${this.weight};`;
-
-        return font_family + line_height + font_size + letter_spacing + font_weight;
-    }
 
     static copyWith(theme: CAHeadlineThemeProps): CAHeadlineTheme {
         return new CAHeadlineTheme(theme.color, theme.text_style?.font, theme.text_style?.line_height, theme.text_style?.size, theme.text_style?.tracking, theme.text_style?.weight);
@@ -229,6 +296,7 @@ export interface CAColor {
     color?: DynamicColor;
 }
 
+@staticImplements<md.ref.copy<CAColor, CALeadingNavigationIconTheme>>()
 export class CALeadingNavigationIconTheme implements md.ref.css {
     constructor(
         public color: DynamicColor = md.sys.color.on_surface,
@@ -242,6 +310,10 @@ export class CALeadingNavigationIconTheme implements md.ref.css {
         return {
             '--ca-leading-navigation-icon-color-light': this.color.light.hex,
             '--ca-leading-navigation-icon-color-dark': this.color.dark.hex,
+
+            // Properties
+            '--ca-leading-navigation-icon-touch-target-height': md.ref.dp_to_rem_string(CATheme.properties.target_size.dp[0]),
+            '--ca-leading-navigation-icon-touch-target-width': md.ref.dp_to_rem_string(CATheme.properties.target_size.dp[1]),
         }
     }
 
@@ -250,6 +322,7 @@ export class CALeadingNavigationIconTheme implements md.ref.css {
     }
 }
 
+@staticImplements<md.ref.copy<CAColor, CATrailingIconTheme>>()
 export class CATrailingIconTheme implements md.ref.css {
     constructor(
         public color: DynamicColor = md.sys.color.on_surface_variant,
@@ -263,6 +336,10 @@ export class CATrailingIconTheme implements md.ref.css {
         return {
             '--ca-trailing-icon-color-dark': this.color.dark.hex,
             '--ca-trailing-icon-color-light': this.color.light.hex,
+
+            // Properties
+            '--ca-trailing-icon-touch-target-height': md.ref.dp_to_rem_string(CATheme.properties.target_size.dp[0]),
+            '--ca-trailing-icon-touch-target-width': md.ref.dp_to_rem_string(CATheme.properties.target_size.dp[1]),
         }
     }
 
