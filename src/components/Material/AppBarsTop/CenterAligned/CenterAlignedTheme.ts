@@ -1,4 +1,4 @@
-import { DynamicColor } from "../../../../lib/Color";
+import { Color, DynamicColor, Palette } from "../../../../lib/Color";
 import { md } from "../../../../lib/md";
 import { staticImplements } from "../../../../lib/StaticImplements";
 
@@ -155,6 +155,7 @@ export interface CenterAlignedThemeProps {
     headline_theme?: CAHeadlineTheme;
     leading_navigation_icon_theme?: CALeadingNavigationIconTheme;
     trailing_icon_theme?: CATrailingIconTheme;
+    palette?: Palette;
 }
 
 /**
@@ -180,18 +181,42 @@ export interface CenterAlignedThemeProps {
  * @param headline_theme - The theme for the headline text. See {@link CAHeadlineTheme `CAHeadlineTheme`}.
  * @param leading_navigation_icon_theme - The theme for the leading navigation icon. See {@link CALeadingNavigationIconTheme `CALeadingNavigationIconTheme`}.
  * @param trailing_icon_theme - The theme for the trailing icon. See {@link CATrailingIconTheme `CATrailingIconTheme`}.
+ * @param palette - To override the default colors with a palette. ***If colors are directly provided in the themes components, they will override the palette.***
  */
 @staticImplements<md.ref.copy<CenterAlignedThemeProps, CenterAlignedTheme>>()
 export class CenterAlignedTheme {
+    public container_theme: CAContainerTheme;
+    public headline_theme: CAHeadlineTheme;
+    public leading_navigation_icon_theme: CALeadingNavigationIconTheme;
+    public trailing_icon_theme: CATrailingIconTheme;
+
     constructor(
-        public container_theme: CAContainerTheme = new CAContainerTheme(),
-        public headline_theme: CAHeadlineTheme = new CAHeadlineTheme(),
-        public leading_navigation_icon_theme: CALeadingNavigationIconTheme = new CALeadingNavigationIconTheme(),
-        public trailing_icon_theme: CATrailingIconTheme = new CATrailingIconTheme(),
-    ) { }
+        container_theme?: CAContainerTheme,
+        headline_theme?: CAHeadlineTheme,
+        leading_navigation_icon_theme?: CALeadingNavigationIconTheme,
+        trailing_icon_theme?: CATrailingIconTheme,
+        palette?: Palette,
+    ) {
+        this.container_theme = CAContainerTheme.copyWith({
+            color: container_theme?.color ?? new md.sys.color_primitives.primary(palette?.primary.color60, palette?.primary.color30),
+            elevation: container_theme?.elevation,
+            elevation_on_scroll: container_theme?.elevation_on_scroll,
+            z_index: container_theme?.z_index,
+        });
+        this.headline_theme = CAHeadlineTheme.copyWith({
+            color: headline_theme?.color ?? palette?.colors.on_surface,
+            text_style: headline_theme?.typescale,
+        });
+        this.leading_navigation_icon_theme = CALeadingNavigationIconTheme.copyWith({
+            color: leading_navigation_icon_theme?.color ?? palette?.colors.on_surface,
+        });
+        this.trailing_icon_theme = CATrailingIconTheme.copyWith({
+            color: trailing_icon_theme?.color ?? palette?.colors.on_surface,
+        });
+    }
 
     static copyWith(theme: CenterAlignedThemeProps): CenterAlignedTheme {
-        return new CenterAlignedTheme(theme.container_theme, theme.headline_theme, theme.leading_navigation_icon_theme, theme.trailing_icon_theme);
+        return new CenterAlignedTheme(theme.container_theme, theme.headline_theme, theme.leading_navigation_icon_theme, theme.trailing_icon_theme, theme.palette);
     }
 }
 
@@ -273,6 +298,10 @@ export class CAHeadlineTheme implements md.ref.css {
 
     static copyWith(theme: CAHeadlineThemeProps): CAHeadlineTheme {
         return new CAHeadlineTheme(theme.color, theme.text_style?.font, theme.text_style?.line_height, theme.text_style?.size, theme.text_style?.tracking, theme.text_style?.weight);
+    }
+
+    public get typescale(): md.sys.typescale {
+        return new md.sys.typescale_primitives.custom_text_style(this.font, this.line_height, this.size, this.tracking, this.weight);
     }
 
     public get css_vars(): md.ref.css_var {

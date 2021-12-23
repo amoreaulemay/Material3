@@ -47,51 +47,51 @@ export namespace md {
             }
         }
 
-        export class palette {
-            static error10 = Color.fromHex('370B1E');
-            static error20 = Color.fromHex('601410');
-            static error30 = Color.fromHex('8C1D18');
-            static error40 = Color.fromHex('B3261E');
-            static error80 = Color.fromHex('F2B8B5');
-            static error90 = Color.fromHex('F9DEDC');
-            static error100 = Color.fromHex('FFFFFF');
+        export namespace palette {
+            export let error10 = Color.fromHex('370B1E');
+            export let error20 = Color.fromHex('601410');
+            export let error30 = Color.fromHex('8C1D18');
+            export let error40 = Color.fromHex('B3261E');
+            export let error80 = Color.fromHex('F2B8B5');
+            export let error90 = Color.fromHex('F9DEDC');
+            export let error100 = Color.fromHex('FFFFFF');
 
-            static neutral0 = Color.fromHex('000000');
-            static neutral10 = Color.fromHex('1C1B1F');
-            static neutral20 = Color.fromHex('313033');
-            static neutral90 = Color.fromHex('E6E1E5');
-            static neutral95 = Color.fromHex('F4EFF4');
-            static neutral99 = Color.fromHex('FFFBFE');
+            export let neutral0 = Color.fromHex('000000');
+            export let neutral10 = Color.fromHex('1C1B1F');
+            export let neutral20 = Color.fromHex('313033');
+            export let neutral90 = Color.fromHex('E6E1E5');
+            export let neutral95 = Color.fromHex('F4EFF4');
+            export let neutral99 = Color.fromHex('FFFBFE');
 
-            static neutral_variant30 = Color.fromHex('49454F');
-            static neutral_variant50 = Color.fromHex('79747E');
-            static neutral_variant60 = Color.fromHex('938F99');
-            static neutral_variant80 = Color.fromHex('CAC4D0');
-            static neutral_variant90 = Color.fromHex('E7E0EC');
+            export let neutral_variant30 = Color.fromHex('49454F');
+            export let neutral_variant50 = Color.fromHex('79747E');
+            export let neutral_variant60 = Color.fromHex('938F99');
+            export let neutral_variant80 = Color.fromHex('CAC4D0');
+            export let neutral_variant90 = Color.fromHex('E7E0EC');
 
-            static primary10 = Color.fromHex('21005E');
-            static primary20 = Color.fromHex('371E73');
-            static primary30 = Color.fromHex('4F378B');
-            static primary40 = Color.fromHex('6750A4');
-            static primary80 = Color.fromHex('D0BCFF');
-            static primary90 = Color.fromHex('EADDFF');
-            static primary100 = Color.fromHex('FFFFFF');
+            export let primary10 = Color.fromHex('21005E');
+            export let primary20 = Color.fromHex('371E73');
+            export let primary30 = Color.fromHex('4F378B');
+            export let primary40 = Color.fromHex('6750A4');
+            export let primary80 = Color.fromHex('D0BCFF');
+            export let primary90 = Color.fromHex('EADDFF');
+            export let primary100 = Color.fromHex('FFFFFF');
 
-            static secondary10 = Color.fromHex('1E192B');
-            static secondary20 = Color.fromHex('332D41');
-            static secondary30 = Color.fromHex('4A4458');
-            static secondary40 = Color.fromHex('625B71');
-            static secondary80 = Color.fromHex('CCC2DC');
-            static secondary90 = Color.fromHex('E8DEF8');
-            static secondary100 = Color.fromHex('FFFFFF');
+            export let secondary10 = Color.fromHex('1E192B');
+            export let secondary20 = Color.fromHex('332D41');
+            export let secondary30 = Color.fromHex('4A4458');
+            export let secondary40 = Color.fromHex('625B71');
+            export let secondary80 = Color.fromHex('CCC2DC');
+            export let secondary90 = Color.fromHex('E8DEF8');
+            export let secondary100 = Color.fromHex('FFFFFF');
 
-            static tertiary10 = Color.fromHex('370B1E');
-            static tertiary20 = Color.fromHex('492532');
-            static tertiary30 = Color.fromHex('633B48');
-            static tertiary40 = Color.fromHex('7D5260');
-            static tertiary80 = Color.fromHex('EFB8C8');
-            static tertiary90 = Color.fromHex('FFD8E4');
-            static tertiary100 = Color.fromHex('FFFFFF');
+            export let tertiary10 = Color.fromHex('370B1E');
+            export let tertiary20 = Color.fromHex('492532');
+            export let tertiary30 = Color.fromHex('633B48');
+            export let tertiary40 = Color.fromHex('7D5260');
+            export let tertiary80 = Color.fromHex('EFB8C8');
+            export let tertiary90 = Color.fromHex('FFD8E4');
+            export let tertiary100 = Color.fromHex('FFFFFF');
         }
 
         export class typescale {
