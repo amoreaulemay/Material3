@@ -37,12 +37,12 @@ export namespace md {
                 dark: string;
             }
 
-            export function css(elevation: md.sys.elevation): css_style {
+            export function css(elevation: md.sys.elevation, color?: DynamicColor): css_style {
                 let rem_value = elevation * 0.0625;
 
                 return {
-                    light: `0rem 0rem ${rem_value}rem ${md.sys.color.shadow.light.hex}`,
-                    dark: `0rem 0rem ${rem_value}rem ${md.sys.color.shadow.dark.hex}`,
+                    light: `0rem 0rem ${rem_value}rem ${color?.light.hex ?? md.sys.color.shadow.light.hex}`,
+                    dark: `0rem 0rem ${rem_value}rem ${color?.dark.hex ?? md.sys.color.shadow.dark.hex}`,
                 };
             }
         }
@@ -105,6 +105,8 @@ export namespace md {
         export function dp_to_px(input: number): number {
             return Math.round(input * window.devicePixelRatio);
         }
+
+        export enum units { dp, px, rem }
     }
 
     export namespace sys {

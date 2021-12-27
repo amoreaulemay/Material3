@@ -1,6 +1,7 @@
-import { Color, DynamicColor, Palette } from "../../../../lib/Color";
+import { DynamicColor, Palette } from "../../../../lib/Color";
 import { md } from "../../../../lib/md";
 import { staticImplements } from "../../../../lib/StaticImplements";
+import { instanceOf } from "../../../../lib/Utilities";
 
 /**
  * The namespace used for the metrics of the `CenterAligned` theme. Contains both the primitives and the properties.
@@ -158,6 +159,11 @@ export interface CenterAlignedThemeProps {
     palette?: Palette;
 }
 
+export interface CAShorthandProps {
+    ca_theme?: CenterAlignedTheme;
+    palette?: Palette;
+}
+
 /**
  * This is the global theme for a `CenterAligned` component.
  * 
@@ -215,8 +221,14 @@ export class CenterAlignedTheme {
         });
     }
 
-    static copyWith(theme: CenterAlignedThemeProps): CenterAlignedTheme {
-        return new CenterAlignedTheme(theme.container_theme, theme.headline_theme, theme.leading_navigation_icon_theme, theme.trailing_icon_theme, theme.palette);
+    static copyWith(theme: CenterAlignedThemeProps | CAShorthandProps): CenterAlignedTheme {
+        if (instanceOf<CenterAlignedThemeProps>(theme, 'container_theme')) {
+            return new CenterAlignedTheme(theme.container_theme, theme.headline_theme, theme.leading_navigation_icon_theme, theme.trailing_icon_theme, theme.palette);
+        } else if (instanceOf<CAShorthandProps>(theme, 'ca_theme')) {
+            return new CenterAlignedTheme(theme.ca_theme?.container_theme, theme.ca_theme?.headline_theme, theme.ca_theme?.leading_navigation_icon_theme, theme.ca_theme?.trailing_icon_theme, theme.palette);
+        } else {
+            throw new Error('Invalid type.');
+        }
     }
 }
 

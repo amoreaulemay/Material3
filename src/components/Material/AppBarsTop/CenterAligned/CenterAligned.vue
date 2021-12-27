@@ -1,7 +1,7 @@
 <template>
     <div class="container fixed top-0 left-0 max-w-full flex items-center px-4" :style="theme.container_theme.inline_css" :id="containerID">
         <div class="shrink leading-icon relative" :style="theme.leading_navigation_icon_theme.inline_css">
-            <span class="material-icons absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">menu</span>
+            <AppBarIcon :icon="leading_icon" />
         </div>
         <div class="flex-auto h-full spacer"></div>
         <div class="flex-auto headline h-min text-center whitespace-nowrap" :style="theme.headline_theme.inline_css" ref="headline">
@@ -43,6 +43,9 @@ export default defineComponent({
             headline_font_size: this.theme.headline_theme.size * 0.0625,
             trailing_icon: new Icon({
                 name: 'account_circle',
+            }),
+            leading_icon: new Icon({
+                name: 'menu',
             }),
         };
     },

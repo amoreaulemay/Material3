@@ -6,3 +6,4 @@ dist-ssr
 .vscode
 tsdoc.json
 docs
+.VSCodeCounter

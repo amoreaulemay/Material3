@@ -1,69 +1,18 @@
 <script setup lang="ts">
 import CenterAligned from './components/Material/AppBarsTop/CenterAligned/CenterAligned.vue';
+import NavigationBar from './components/Material/NavigationBar/NavigationBar.vue';
+
 import { CAContainerTheme, CAHeadlineTheme, CALeadingNavigationIconTheme, CATrailingIconTheme, CenterAlignedTheme } from './components/Material/AppBarsTop/CenterAligned/CenterAlignedTheme';
 import { MaterialTheme } from './components/Material/MaterialTheme';
-import { Color, Palette } from './lib/Color';
-
-// document.body.style.setProperty('--bg-color-light', '#' + md.sys.color.background.light.color);
-// document.body.style.setProperty('--bg-color-dark', '#' + md.sys.color.background.dark.color);
-
-// let palette = Palette.copyWith({
-//     primary: Color.fromHex('53846a'),
-//     secondary: Color.fromHex('e6e1e7'),
-//     tertiary: Color.fromHex('7fa993'),
-//     neutral: Color.fromHex('383239'),
-//     neutral_variant: Color.fromHex('19181a'),
-//   });
-
-let palette = Palette.copyWith({
-    primary: Color.fromHex('000000'),
-    secondary: Color.fromHex('000000'),
-    tertiary: Color.fromHex('000000'),
-    neutral: Color.fromHex('000000'),
-    neutral_variant: Color.fromHex('000000'),
-  });
-
-document.body.style.setProperty('--bg-color-dark', palette.colors.surface.dark.hex);
-document.body.style.setProperty('--bg-color-light', palette.colors.surface.light.hex);
-
-let app_theme = CenterAlignedTheme.copyWith({
-  palette: palette,
-  container_theme: CAContainerTheme.copyWith({
-    color: Color.dynamic({
-      light: Color.fromRGB({r: 0, g: 0, b: 0}),
-      dark: Color.fromRGB({r: 0, g: 0, b: 0}),
-    }),
-  }),
-  headline_theme: CAHeadlineTheme.copyWith({
-    color: Color.dynamic({
-      light: Color.fromRGB({r: 255, g: 255, b: 255}),
-      dark: Color.fromRGB({r: 255, g: 255, b: 255}),
-    }),
-  }),
-  trailing_icon_theme: CATrailingIconTheme.copyWith({
-    color: Color.dynamic({
-      light: Color.fromRGB({r: 255, g: 255, b: 255}),
-      dark: Color.fromRGB({r: 255, g: 255, b: 255}),
-    }),
-  }),
-  leading_navigation_icon_theme: CALeadingNavigationIconTheme.copyWith({
-    color: Color.dynamic({
-      light: Color.fromRGB({r: 255, g: 255, b: 255}),
-      dark: Color.fromRGB({r: 255, g: 255, b: 255}),
-    }),
-  }),
-});
-
-let material_theme = MaterialTheme.copyWith({
-  palette: palette,
-});
-
-material_theme.createMeta();
+import { Color, Colors, Palette } from './lib/Color';
+import { NavigationBarTheme, NBContainerTheme, NBDestinationTheme, NBLabelTextTheme } from './components/Material/NavigationBar/NavigationBarTheme';
+import { material_theme } from './theme';
 
 </script>
 
 <template>
-  <CenterAligned :theme="app_theme" title="Thomas Soto Manager" />
+  <CenterAligned :theme="material_theme.app_bar_theme" title="Thomas Soto Manager" />
+  <NavigationBar :theme="material_theme.navigation_bar_theme" />
 </template>
 
 <style>

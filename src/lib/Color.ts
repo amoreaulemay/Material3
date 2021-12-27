@@ -424,3 +424,25 @@ export class Palette {
         );
     }
 }
+
+/**
+ * Utility namespace for commonly used colors.
+ */
+export namespace Colors {
+    export const black = Color.fromHex('000000');
+    export const middle_gray = Color.fromHex('7F7F7F');
+    export const white = Color.fromHex('FFFFFF');
+
+    export namespace dynamic {
+        // Pure colors - Not really dynamic...
+        export const pure_black = new DynamicColor(Colors.black, Colors.black);
+        export const pure_white = new DynamicColor(Colors.white, Colors.white);
+
+        // True dynamic colors
+        export const black_and_white = new DynamicColor(Colors.white, Colors.black);
+    }
+}
+
+export namespace Palette {
+    export const grays = Color.getPalette(Colors.middle_gray);
+}
