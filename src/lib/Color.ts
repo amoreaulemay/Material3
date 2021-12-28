@@ -135,6 +135,14 @@ export class Color {
         }
     }
 
+    public shade(luminance: number): Color {
+        if (!(0 <= luminance && luminance <= 1)) {
+            throw new Error('Invalid luminance value.');
+        }
+
+        return Color.colorToLuminance(this, luminance);
+    }
+
     static hsl = class {
         static toRGB(color: HSL): RGB {
             if (0 <= color.h && color.h < 360 && 0 <= color.l && color.l <= 1) {
@@ -244,11 +252,24 @@ export class Color {
     }
 }
 
+export interface DynamicColorLuminances {
+    light_luminance: number;
+    dark_luminance: number;
+}
+
 export class DynamicColor {
     constructor(
         public light: Color,
         public dark: Color,
     ) { }
+
+    public shade(luminance: number | DynamicColorLuminances): DynamicColor {
+        if (typeof luminance === 'number') {
+            return new DynamicColor(this.light.shade(luminance), this.dark.shade(luminance));
+        } else {
+            return new DynamicColor(this.light.shade(luminance.light_luminance), this.dark.shade(luminance.dark_luminance));
+        }
+    }
 }
 
 export interface PaletteProps {

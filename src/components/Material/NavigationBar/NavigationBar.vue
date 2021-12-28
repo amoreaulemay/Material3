@@ -1,7 +1,7 @@
 <template>
     <div class="container fixed bottom-0 left-0 max-w-full flex items-center justify-center" :id="containerID" :style="theme.container_theme.inline_css">
         <NBSpacer />
-        <NBDestination :theme="theme.destination_theme" v-for="destination in destinations" :key="destination.id" :destination="destination" />
+        <NBDestination :theme="theme.destination_theme" v-for="destination in destinations" :key="destination.id" :destination="destination" @destination-clicked="onDestinationClicked" />
     </div>
 </template>
 
@@ -32,6 +32,17 @@ export default defineComponent({
             destinations: generateDestinations(3),
         }
     },
+    methods: {
+        onDestinationClicked(destination: NBDestinationItem) {
+            this.destinations.forEach(x => {
+                if (x.id !== destination.id) {
+                    x.setInactive();
+                } else {
+                    x.setActive();
+                }
+            });
+        }
+    }
 })
 </script>
 
@@ -40,11 +51,11 @@ export default defineComponent({
 .container {
     background: var(--nb-container-color-light);
     box-shadow: var(--nb-container-elevation-light);
-    height: var(--nb-container-height);
+    height: calc(var(--nb-container-height) + max(env(safe-area-inset-bottom), var(--nb-container-padding-bottom)));
     border-radius: var(--nb-container-shape);
     z-index: var(--nb-container-z-index);
     padding-top: var(--nb-container-padding-top);
-    padding-bottom: var(--nb-container-padding-bottom);
+    padding-bottom: max(env(safe-area-inset-bottom), var(--nb-container-padding-bottom));
 }
 
 @media(prefers-color-scheme: dark) {

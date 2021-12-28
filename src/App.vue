@@ -2,10 +2,6 @@
 import CenterAligned from './components/Material/AppBarsTop/CenterAligned/CenterAligned.vue';
 import NavigationBar from './components/Material/NavigationBar/NavigationBar.vue';
 
-import { CAContainerTheme, CAHeadlineTheme, CALeadingNavigationIconTheme, CATrailingIconTheme, CenterAlignedTheme } from './components/Material/AppBarsTop/CenterAligned/CenterAlignedTheme';
-import { MaterialTheme } from './components/Material/MaterialTheme';
-import { Color, Colors, Palette } from './lib/Color';
-import { NavigationBarTheme, NBContainerTheme, NBDestinationTheme, NBLabelTextTheme } from './components/Material/NavigationBar/NavigationBarTheme';
 import { material_theme } from './theme';
 
 </script>

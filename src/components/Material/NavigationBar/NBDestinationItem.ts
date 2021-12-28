@@ -17,6 +17,20 @@ export class NBDestinationItem {
         public active: boolean = false,
     ) { }
 
+    public setActive() {
+        this.active = true;
+        if (typeof this.icon !== 'undefined') {
+            this.icon.property = IconProperty.filled;
+        }
+    }
+
+    public setInactive() {
+        this.active = false;
+        if (typeof this.icon !== 'undefined') {
+            this.icon.property = IconProperty.outlined;
+        }
+    }
+
     static copyWith(props: NBDestinationItemProps): NBDestinationItem {
         return new NBDestinationItem(props.id, props.icon, props.label, props.active);
     }

@@ -1,6 +1,6 @@
 import { CAContainerTheme, CAHeadlineTheme, CALeadingNavigationIconTheme, CATrailingIconTheme, CenterAlignedTheme } from "./components/Material/AppBarsTop/CenterAligned/CenterAlignedTheme";
 import { MaterialTheme } from "./components/Material/MaterialTheme";
-import { NavigationBarTheme, NBContainerTheme, NBDestinationTheme, NBLabelTextTheme } from "./components/Material/NavigationBar/NavigationBarTheme";
+import { NavigationBarTheme, NBActiveIndicatorTheme, NBContainerTheme, NBDestinationTheme, NBLabelTextTheme } from "./components/Material/NavigationBar/NavigationBarTheme";
 import { Palette, Color, Colors } from "./lib/Color";
 
 export const material_theme = MaterialTheme.copyWith({
@@ -32,11 +32,11 @@ export const material_theme = MaterialTheme.copyWith({
         destination_theme: NBDestinationTheme.copyWith({
             label_theme: NBLabelTextTheme.copyWith({
                 color_active: Colors.dynamic.pure_white,
-                color_inactive: Color.dynamic({
-                    light: Color.colorToLuminance(Colors.white, 0.5),
-                    dark: Color.colorToLuminance(Colors.white, 0.5),
-                })
-            })
+                color_inactive: Colors.dynamic.pure_white.shade(0.5),
+            }),
+            active_indicator_theme: NBActiveIndicatorTheme.copyWith({
+                color: Colors.dynamic.pure_white,
+            }),
         }),
     }),
 });

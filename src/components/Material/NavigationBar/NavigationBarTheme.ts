@@ -143,6 +143,7 @@ export class NavigationBarTheme {
         this.destination_theme = NBDestinationTheme.copyWith({
             icon_theme: destination_theme?.icon_theme,
             label_theme: destination_theme?.label_theme,
+            active_indicator_theme: destination_theme?.active_indicator_theme,
         });
     }
 
@@ -154,16 +155,19 @@ export class NavigationBarTheme {
 export interface NBDestinationProps {
     icon_theme?: NBIconTheme;
     label_theme?: NBLabelTextTheme;
+    active_indicator_theme?: NBActiveIndicatorTheme;
 }
 
 @staticImplements<md.ref.copy<NBDestinationProps, NBDestinationTheme>>()
 export class NBDestinationTheme {
     public icon_theme: NBIconTheme;
     public label_theme: NBLabelTextTheme;
+    public active_indicator_theme: NBActiveIndicatorTheme;
 
     constructor(
         icon_theme?: NBIconTheme,
         label_theme?: NBLabelTextTheme,
+        active_indicator_theme?: NBActiveIndicatorTheme,
     ) {
         this.icon_theme = NBIconTheme.copyWith({
             color_active: icon_theme?.color_active,
@@ -175,10 +179,14 @@ export class NBDestinationTheme {
             color_inactive: label_theme?.color_inactive,
             text_style: label_theme?.text_style,
         });
+
+        this.active_indicator_theme = NBActiveIndicatorTheme.copyWith({
+            color: active_indicator_theme?.color,
+        });
     }
 
     static copyWith(theme: NBDestinationProps): NBDestinationTheme {
-        return new NBDestinationTheme(theme.icon_theme, theme.label_theme);
+        return new NBDestinationTheme(theme.icon_theme, theme.label_theme, theme.active_indicator_theme);
     }
 }
 
@@ -301,6 +309,32 @@ export class NBLabelTextTheme implements md.ref.css {
             '--nb-label-text-size': md.ref.dp_to_rem_string(this.size),
             '--nb-label-text-tracking': md.ref.dp_to_rem_string(this.tracking),
             '--nb-label-text-weight': this.weight.toString(),
+        }
+    }
+
+    public get inline_css(): string {
+        return md.ref.generate_style(this.css_vars);
+    }
+}
+
+export interface NBActiveIndicatorProps {
+    color?: DynamicColor;
+}
+
+@staticImplements<md.ref.copy<NBActiveIndicatorProps, NBActiveIndicatorTheme>>()
+export class NBActiveIndicatorTheme implements md.ref.css {
+    constructor(
+        public color: DynamicColor = md.sys.color.secondary_container,
+    ) { }
+
+    static copyWith(theme: NBActiveIndicatorProps): NBActiveIndicatorTheme {
+        return new NBActiveIndicatorTheme(theme.color);
+    }
+
+    public get css_vars(): md.ref.css_var {
+        return {
+            '--nb-active-indicator-color-light': this.color.light.hex,
+            '--nb-active-indicator-color-dark': this.color.dark.hex,
         }
     }
 
