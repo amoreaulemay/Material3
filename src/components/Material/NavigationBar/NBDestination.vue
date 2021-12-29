@@ -60,11 +60,13 @@ export default defineComponent({
 }
 
 .icon {
-    @apply text-white text-2xl;
+    color: white;
+    font-size: 1.5rem;
+    line-height: 2rem;
 }
 
 .icon.active {
-    @apply text-black;
+    color: black;
 }
 
 .label-text {

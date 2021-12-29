@@ -1,3 +1,4 @@
+import { TextStyle, TextStyleProps } from "./TextStyle";
 import { Color, DynamicColor } from "./Color"
 
 export namespace md {
@@ -95,8 +96,8 @@ export namespace md {
         }
 
         export class typescale {
-            static brand_regular: string = 'Roboto';
-            static plain_medium: string = 'Roboto';
+            static brand_regular: string = '\'Roboto\', sans-serif';
+            static plain_medium: string = '\'Roboto\', sans-serif';
 
             static weight_regular: number = 400;
             static weight_medium: number = 500;
@@ -368,16 +369,6 @@ export namespace md {
                     public tracking: number,
                     public weight: number,
                 ) { }
-
-                public get css_style(): string {
-                    let font_family: string = `font-family: ${this.font};`;
-                    let line_height: string = `line-height: ${this.line_height};`;
-                    let font_size: string = `font-size: ${this.size * 0.0625}rem;`;
-                    let letter_spacing: string = `letter-spacing: ${this.tracking * 0.0625}rem;`;
-                    let font_weight: string = `font-weight: ${this.weight};`;
-
-                    return font_family + line_height + font_size + letter_spacing + font_weight;
-                }
             }
 
             export class display_large extends typescale_glob_functions {

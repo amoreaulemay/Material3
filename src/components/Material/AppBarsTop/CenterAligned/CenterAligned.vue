@@ -1,11 +1,11 @@
 <template>
-    <div class="container fixed top-0 left-0 max-w-full flex items-center px-4" :style="theme.container_theme.inline_css" :id="containerID">
+    <div class="container fixed top-0 left-0 max-w-full flex items-center px-4 select-none" :style="theme.container_theme.inline_css" :id="containerID">
         <div class="shrink leading-icon relative" :style="theme.leading_navigation_icon_theme.inline_css">
             <AppBarIcon :icon="leading_icon" />
         </div>
         <div class="flex-auto h-full spacer"></div>
         <div class="flex-auto headline h-min text-center whitespace-nowrap" :style="theme.headline_theme.inline_css" ref="headline">
-            <span id="headline_text" ref="headline_text" :style="`font-size: ${headline_font_size}rem`">{{ title }}</span>
+            <span id="headline_text" ref="headline_text" :style="`font-size: ${headline_font_size}rem`"><slot></slot></span>
         </div>
         <div class="flex-auto h-full spacer"></div>
         <div class="shrink trailing-icon relative" :style="theme.trailing_icon_theme.inline_css">
@@ -28,10 +28,6 @@ export default defineComponent({
         theme: {
             type: Object as PropType<CenterAlignedTheme>,
             default: new CenterAlignedTheme(),
-        },
-        title: {
-            type: String,
-            required: false,
         },
         main_view_id: {
             type: String,

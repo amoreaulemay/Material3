@@ -1,10 +1,11 @@
 {
   "name": "thomas-soto-manager",
-  "version": "0.5.1",
+  "version": "0.5.5",
   "scripts": {
     "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview --host"
+    "preview": "vite preview --host",
+    "deploy": "./deploy/move.sh"
   },
   "dependencies": {
     "typedoc": "^0.22.10",

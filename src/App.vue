@@ -1,17 +1,56 @@
 <script setup lang="ts">
-import CenterAligned from './components/Material/AppBarsTop/CenterAligned/CenterAligned.vue';
-import NavigationBar from './components/Material/NavigationBar/NavigationBar.vue';
-
 import { material_theme } from './theme';
+import { md, EdgeInsets, TextStyle, TextAlign } from './lib/lib';
+import { Center, CenterAligned, Column, Expanded, NavigationBar, Padding, Scaffold, Text, } from './components/Material/material';
 
 </script>
 
 <template>
-  <CenterAligned :theme="material_theme.app_bar_theme" title="Thomas Soto Manager" />
-  <NavigationBar :theme="material_theme.navigation_bar_theme" />
+  <Scaffold :theme="material_theme">
+    <template #appBar={data}>
+      <CenterAligned :theme="data">Thomas Soto Manager</CenterAligned>
+    </template>
+
+    <template #body>
+      <!-- <Center>
+        <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
+      </Center> -->
+      <!-- <Expanded>
+        <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
+      </Expanded> -->
+      <!-- <Expanded>
+        <Center>
+          <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
+        </Center>
+      </Expanded> -->
+      <!-- <Expanded>
+        <Padding :padding="EdgeInsets.all(8)">
+          <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
+        </Padding>
+      </Expanded> -->
+      <Column>
+        <Expanded v-for="n in 15" :key="n">
+          <Padding :padding="EdgeInsets.all(8)">
+            <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
+          </Padding>
+        </Expanded>
+      </Column>
+    </template>
+
+    <template #navigationBar={data}>
+      <NavigationBar :theme="data" />
+    </template>
+  </Scaffold>
 </template>
 
 <style>
+:root {
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+}
+
 html, body {
     height: 100%;
     overflow: hidden;

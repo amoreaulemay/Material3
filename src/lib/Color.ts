@@ -460,7 +460,7 @@ export namespace Colors {
         export const pure_white = new DynamicColor(Colors.white, Colors.white);
 
         // True dynamic colors
-        export const black_and_white = new DynamicColor(Colors.white, Colors.black);
+        export const black_and_white = new DynamicColor(Colors.black, Colors.white);
     }
 }
 
