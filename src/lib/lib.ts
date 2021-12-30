@@ -2,6 +2,7 @@ export * from './Color';
 export * from './CrossAxisAlignment';
 export * from './EdgeInsets';
 export * from './Icon';
+export * from './ListViewDirection';
 export * from './Math';
 export * from './MainAxisAlignment';
 export * from './md';

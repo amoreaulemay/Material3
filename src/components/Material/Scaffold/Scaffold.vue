@@ -1,9 +1,9 @@
 <template>
     <div class="scaffold h-full w-full">
         <slot name="appBar" :data="theme.app_bar_theme"></slot>
-        <div class="body-container fixed top-0 bottom-0 left-0 right-0 overflow-hidden z-0" :style="bodyContainerInlineCss">
+        <main class="body-container fixed top-0 bottom-0 left-0 right-0 overflow-hidden z-0" :style="bodyContainerInlineCss">
             <slot name="body"></slot>
-        </div>
+        </main>
         <slot name="navigationBar" :data="theme.navigation_bar_theme"></slot>
     </div>
 </template>

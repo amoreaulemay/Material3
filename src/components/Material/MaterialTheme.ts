@@ -1,5 +1,4 @@
-import { Palette } from "../../lib/Color";
-import { md } from "../../lib/md";
+import { md, Palette, DynamicColor } from "../../lib/lib";
 import { CenterAlignedTheme } from "./AppBarsTop/CenterAligned/CenterAlignedTheme"
 import { NavigationBarTheme } from "./NavigationBar/NavigationBarTheme";
 
@@ -19,6 +18,8 @@ export class MaterialTheme {
     ) {
         this.bodyStyle();
         this.createMeta();
+
+        window.__ENV_THEME__ = this;
     }
 
     public createMeta() {
@@ -44,8 +45,13 @@ export class MaterialTheme {
     }
 
     public bodyStyle() {
-        document.body.style.setProperty('--bg-color-dark', this.palette?.colors.surface.dark.hex ?? md.sys.color.surface.dark.hex);
-        document.body.style.setProperty('--bg-color-light', this.palette?.colors.surface.light.hex ?? md.sys.color.surface.light.hex);
+        let dark = this.palette?.colors.surface.dark ?? md.sys.color.surface.dark;
+        let light = this.palette?.colors.surface.light ?? md.sys.color.surface.light;
+
+        window.__ENV_BODY__ = new DynamicColor(light.inverse, dark.inverse);
+
+        document.body.style.setProperty('--bg-color-dark', dark.hex);
+        document.body.style.setProperty('--bg-color-light', light.hex);
     }
 
     static copyWith(props: MaterialThemeProps): MaterialTheme {

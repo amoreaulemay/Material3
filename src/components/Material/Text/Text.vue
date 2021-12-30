@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+/// <reference path="../../../global.d.ts" />
 import { defineComponent, PropType } from 'vue';
 import { TextStyle, DynamicColor, Color, Colors } from '../../../lib/lib';
 import { v4 as uuid4 } from 'uuid';
@@ -67,6 +68,12 @@ export default defineComponent({
                             typescale: this.textStyle.typescale
                         });
                     }
+                } else if (window.__ENV_BODY__ instanceof DynamicColor) {
+                    return TextStyle.copyWith({
+                        color: window.__ENV_BODY__,
+                        align: this.textStyle.align,
+                        typescale: this.textStyle.typescale,
+                    });
                 } else {
                     return this.textStyle;
                 }

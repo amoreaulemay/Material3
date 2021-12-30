@@ -157,6 +157,17 @@ export class Color {
         }
     }
 
+    public get inverse(): Color {
+        let rgb = this.rgb;
+        let new_rgb: RGB = {
+            r: 255 - rgb.r,
+            g: 255 - rgb.g,
+            b: 255 - rgb.b,
+        }
+
+        return Color.fromRGB(new_rgb);
+    }
+
     public shade(luminance: number): Color {
         if (!(0 <= luminance && luminance <= 1)) {
             throw new Error('Invalid luminance value.');

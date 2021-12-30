@@ -1,79 +1,78 @@
 <script setup lang="ts">
 import { material_theme } from './theme';
-import { md, EdgeInsets, TextStyle, TextAlign, MainAxisAlignment, CrossAxisAlignment, Colors, Color, mod } from './lib/lib';
-import { Container, Scaffold, CenterAligned, NavigationBar, Text, Expanded } from './components/Material/material';
+import { md, EdgeInsets, TextStyle, TextAlign, MainAxisAlignment, CrossAxisAlignment, Colors, Color, Icon } from './lib/lib';
+import { CenterAligned, Container, Expanded, ListView, NavigationBar, Padding, Row, Scaffold, SizedBox, Text, IconView } from './components/Material/material';
 
 const bgColor = Color.dynamic({
-  light: Colors.grey.color100,
-  dark: Colors.grey.color10,
+	light: Colors.grey.color100,
+	dark: Colors.grey.color10,
 });
 const textStyle = TextStyle.copyWith({
-  align: TextAlign.left
+	align: TextAlign.left,
 });
-
 </script>
 
 <template>
-  <Scaffold :theme="material_theme">
-    <template #appBar={data}>
-      <CenterAligned :theme="data">Thomas Soto Manager</CenterAligned>
-    </template>
+	<Scaffold :theme="material_theme">
+		<template #appBar="{ data }">
+			<CenterAligned :theme="data">Thomas Soto Manager</CenterAligned>
+		</template>
 
-    <template #body>
-      <!-- <Expanded>
-        <Padding :padding="EdgeInsets.symmetric({horizontal: 35, vertical: 50})">
-          <Expanded>
-            <Column :main-axis-alignment="MainAxisAlignment.spaceBetween" :cross-axis-alignment="CrossAxisAlignment.center">
-              <Padding :padding="EdgeInsets.all(8)" v-for="n in 5" :key="n">
-                <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">A</Text>
-              </Padding>
-            </Column>
-          </Expanded>
-        </Padding>
-      </Expanded> -->
-      <Expanded>
-        <Container :padding="EdgeInsets.all(15)" :background="bgColor">
-          <Text :text-style="textStyle" contrasting>Hello</Text>
-        </Container>
-      </Expanded>
-    </template>
+		<template #body>
+			<Expanded>
+				<Container>
+					<Expanded>
+						<ListView>
+							<SizedBox :height="20" expanded />
+							<Padding :padding="EdgeInsets.symmetric({ vertical: 10, horizontal: 20 })" v-for="n in 15" :key="n">
+								<Row :main-axis-alignment="MainAxisAlignment.spaceBetween">
+									<Text :text-style="textStyle" contrasting>Row {{ n }}</Text>
+									<IconView :icon="new Icon({ name: 'chevron_right' })" />
+								</Row>
+							</Padding>
+						</ListView>
+					</Expanded>
+				</Container>
+			</Expanded>
+		</template>
 
-    <template #navigationBar={data}>
-      <NavigationBar :theme="data" />
-    </template>
-  </Scaffold>
+		<template #navigationBar="{ data }">
+			<NavigationBar :theme="data" />
+		</template>
+	</Scaffold>
 </template>
 
 <style>
 :root {
-    --sat: env(safe-area-inset-top);
-    --sar: env(safe-area-inset-right);
-    --sab: env(safe-area-inset-bottom);
-    --sal: env(safe-area-inset-left);
+	--sat: env(safe-area-inset-top);
+	--sar: env(safe-area-inset-right);
+	--sab: env(safe-area-inset-bottom);
+	--sal: env(safe-area-inset-left);
 }
 
-html, body {
-    height: 100%;
-    overflow: hidden;
+html,
+body {
+	height: 100%;
+	overflow: hidden;
 }
 
 #app {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: auto;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: auto;
 }
 
 body {
-  background: var(--bg-color-light);
-  touch-action: pan-x pan-y;
+	background: var(--bg-color-light);
+	touch-action: pan-x pan-y;
 }
 
-@media(prefers-color-scheme: dark) {
-  body {
-    background: var(--bg-color-dark);
-  }
+@media (prefers-color-scheme: dark) {
+	body {
+		background: var(--bg-color-dark);
+	}
 }
 </style>
