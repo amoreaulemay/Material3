@@ -71,6 +71,10 @@ export class Color {
         return new DynamicColor(props.light, props.dark);
     }
 
+    static toDynamic(color: Color): DynamicColor {
+        return Color.dynamic({ light: color, dark: color });
+    }
+
     static shadeColor(color: string | Color, percent: number): Color {
         let _color = typeof color === 'string' ? color : color.color;
 
@@ -108,6 +112,24 @@ export class Color {
             color95: Color.colorToLuminance(base_color, 0.95),
             color99: Color.colorToLuminance(base_color, 0.99),
             color100: Color.fromRGB({ r: 255, g: 255, b: 255 }),
+        }
+    }
+
+    static getContrastingShade(color: Color): Color {
+        let hsl = Color.rgb.toHSL(color);
+        let color_max_delta = Math.max(Math.abs(hsl.l - 1), Math.abs(0 - hsl.l));
+
+        let resulting_luminance = 0;
+
+        if (color_max_delta == Math.abs(hsl.l - 1)) {
+            resulting_luminance = 1;
+        }
+
+        if (hsl.s < 0.5) {
+            return Color.fromHSL({ h: 0, s: 0, l: resulting_luminance });
+        } else {
+            let newHue = mod(hsl.h + 180, 360);
+            return Color.fromHSL({ h: newHue, s: 1, l: Math.min(resulting_luminance + 0.05, 1) });
         }
     }
 
@@ -453,6 +475,43 @@ export namespace Colors {
     export const black = Color.fromHex('000000');
     export const middle_gray = Color.fromHex('7F7F7F');
     export const white = Color.fromHex('FFFFFF');
+
+    // Color palettes
+    export const pink = Color.getPalette(Color.fromHex('E91E63'));
+    export const pinkAccent = Color.getPalette(Color.fromHex('FF4081'));
+    export const red = Color.getPalette(Color.fromHex('F44336'));
+    export const redAccent = Color.getPalette(Color.fromHex('FF1744'));
+    export const deepOrange = Color.getPalette(Color.fromHex('FF5722'));
+    export const deepOrangeAccent = Color.getPalette(Color.fromHex('FF3D00'));
+    export const orange = Color.getPalette(Color.fromHex('FF9800'));
+    export const orangeAccent = Color.getPalette(Color.fromHex('FF9100'));
+    export const amber = Color.getPalette(Color.fromHex('FFC107'));
+    export const amberAccent = Color.getPalette(Color.fromHex('FFD740'));
+    export const yellow = Color.getPalette(Color.fromHex('FFEB3B'));
+    export const yellowAccent = Color.getPalette(Color.fromHex('FFFF00'));
+    export const lime = Color.getPalette(Color.fromHex('CDDC39'));
+    export const limeAccent = Color.getPalette(Color.fromHex('EEFF41'));
+    export const lightGreen = Color.getPalette(Color.fromHex('8BC34A'));
+    export const lightGreenAccent = Color.getPalette(Color.fromHex('B2FF59'));
+    export const green = Color.getPalette(Color.fromHex('4CAF50'));
+    export const greenAccent = Color.getPalette(Color.fromHex('69F0AE'));
+    export const teal = Color.getPalette(Color.fromHex('009688'));
+    export const tealAccent = Color.getPalette(Color.fromHex('64FFDA'));
+    export const cyan = Color.getPalette(Color.fromHex('00BCD4'));
+    export const cyanAccent = Color.getPalette(Color.fromHex('18FFFF'));
+    export const lightBlue = Color.getPalette(Color.fromHex('03A9F4'));
+    export const lightBlueAccent = Color.getPalette(Color.fromHex('40C4FF'));
+    export const blue = Color.getPalette(Color.fromHex('2196F3'));
+    export const blueAccent = Color.getPalette(Color.fromHex('448AFF'));
+    export const indigo = Color.getPalette(Color.fromHex('3F51B5'));
+    export const indigoAccent = Color.getPalette(Color.fromHex('536DFE'));
+    export const purple = Color.getPalette(Color.fromHex('9C27B0'));
+    export const purpleAccent = Color.getPalette(Color.fromHex('E040FB'));
+    export const deepPurple = Color.getPalette(Color.fromHex('673AB7'));
+    export const deepPurpleAccent = Color.getPalette(Color.fromHex('654FFF'));
+    export const blueGrey = Color.getPalette(Color.fromHex('607D8B'));
+    export const brown = Color.getPalette(Color.fromHex('795548'));
+    export const grey = Color.getPalette(Color.fromHex('9E9E9E'));
 
     export namespace dynamic {
         // Pure colors - Not really dynamic...

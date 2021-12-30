@@ -1,10 +1,24 @@
-import { TextStyle, TextStyleProps } from "./TextStyle";
-import { Color, DynamicColor } from "./Color"
+// import { Color, DynamicColor } from "./Color"
+import { MainAxisAlignment, Color, DynamicColor, CrossAxisAlignment } from "./lib";
 
 export namespace md {
     export namespace ref {
-        export function dp_to_rem_string(value: number): string {
-            return value * 0.0625 + 'rem';
+        export namespace alignment {
+            export function generate_main_style(alignment: MainAxisAlignment): string {
+                return md.ref.generate_style({
+                    '--main-axis-alignment': alignment,
+                });
+            }
+
+            export function generate_cross_style(alignment: CrossAxisAlignment): string {
+                return md.ref.generate_style({
+                    '--cross-axis-alignment': alignment,
+                });
+            }
+        }
+
+        export interface copy<T, U> {
+            copyWith(theme: T): U;
         }
 
         export interface css_var {
@@ -16,20 +30,12 @@ export namespace md {
             readonly inline_css: string;
         }
 
-        export interface copy<T, U> {
-            copyWith(theme: T): U;
+        export function dp_to_px(input: number): number {
+            return Math.round(input * window.devicePixelRatio);
         }
 
-        export function generate_style(...css_vars: css_var[]): string {
-            let render: string = '';
-
-            css_vars.forEach((css_var) => {
-                for (let key in css_var) {
-                    render += key + ':' + css_var[key] + ';';
-                }
-            });
-
-            return render;
+        export function dp_to_rem_string(value: number): string {
+            return value * 0.0625 + 'rem';
         }
 
         export namespace elevation {
@@ -46,6 +52,18 @@ export namespace md {
                     dark: `0rem 0rem ${rem_value}rem ${color?.dark.hex ?? md.sys.color.shadow.dark.hex}`,
                 };
             }
+        }
+
+        export function generate_style(...css_vars: css_var[]): string {
+            let render: string = '';
+
+            css_vars.forEach((css_var) => {
+                for (let key in css_var) {
+                    render += key + ':' + css_var[key] + ';';
+                }
+            });
+
+            return render;
         }
 
         export namespace palette {
@@ -101,10 +119,6 @@ export namespace md {
 
             static weight_regular: number = 400;
             static weight_medium: number = 500;
-        }
-
-        export function dp_to_px(input: number): number {
-            return Math.round(input * window.devicePixelRatio);
         }
 
         export enum units { dp, px, rem }

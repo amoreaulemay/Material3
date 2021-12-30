@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import { material_theme } from './theme';
-import { md, EdgeInsets, TextStyle, TextAlign } from './lib/lib';
-import { Center, CenterAligned, Column, Expanded, NavigationBar, Padding, Scaffold, Text, } from './components/Material/material';
+import { md, EdgeInsets, TextStyle, TextAlign, MainAxisAlignment, CrossAxisAlignment, Colors, Color, mod } from './lib/lib';
+import { Container, Scaffold, CenterAligned, NavigationBar, Text, Expanded } from './components/Material/material';
+
+const bgColor = Color.dynamic({
+  light: Colors.amber.color50,
+  dark: Colors.amber.color30,
+});
+const textStyle = TextStyle.copyWith({
+  align: TextAlign.left
+});
 
 </script>
 
@@ -12,29 +20,22 @@ import { Center, CenterAligned, Column, Expanded, NavigationBar, Padding, Scaffo
     </template>
 
     <template #body>
-      <!-- <Center>
-        <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
-      </Center> -->
       <!-- <Expanded>
-        <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
-      </Expanded> -->
-      <!-- <Expanded>
-        <Center>
-          <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
-        </Center>
-      </Expanded> -->
-      <!-- <Expanded>
-        <Padding :padding="EdgeInsets.all(8)">
-          <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
+        <Padding :padding="EdgeInsets.symmetric({horizontal: 35, vertical: 50})">
+          <Expanded>
+            <Column :main-axis-alignment="MainAxisAlignment.spaceBetween" :cross-axis-alignment="CrossAxisAlignment.center">
+              <Padding :padding="EdgeInsets.all(8)" v-for="n in 5" :key="n">
+                <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">A</Text>
+              </Padding>
+            </Column>
+          </Expanded>
         </Padding>
       </Expanded> -->
-      <Column>
-        <Expanded v-for="n in 15" :key="n">
-          <Padding :padding="EdgeInsets.all(8)">
-            <Text :text-style="TextStyle.dynamic.monochrome({typescale: md.sys.typescale.body_large, align: TextAlign.justify})">Hey this is from text!</Text>
-          </Padding>
-        </Expanded>
-      </Column>
+      <Expanded>
+        <Container :padding="EdgeInsets.all(15)" :background="bgColor">
+          <Text :text-style="textStyle" contrasting>Hello</Text>
+        </Container>
+      </Expanded>
     </template>
 
     <template #navigationBar={data}>

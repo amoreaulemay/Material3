@@ -1,5 +1,5 @@
 <template>
-    <div class="column flex flex-col h-full max-w-full overflow-hidden w-fit" :style="inline_css">
+    <div class="row flex flex-row overflow-hidden w-full max-h-full h-fit" :style="inline_css">
         <slot></slot>
     </div>
 </template>
@@ -9,7 +9,7 @@ import { defineComponent, PropType } from 'vue'
 import { MainAxisAlignment, CrossAxisAlignment, md } from '../../../lib/lib'
 
 export default defineComponent({
-    name: 'Column',
+    name: 'Row',
     props: {
         mainAxisAlignment: {
             type: String as PropType<MainAxisAlignment>,
@@ -29,7 +29,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.column {
+.row {
     justify-content: var(--main-axis-alignment);
     align-items: var(--cross-axis-alignment);
 }
