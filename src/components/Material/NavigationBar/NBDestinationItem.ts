@@ -49,9 +49,8 @@ export function generateDestinations(num: number): NBDestinationItem[] {
             property: IconProperty.filled,
         }),
         new Icon({
-            name: 'add_box',
+            name: 'preview',
             property: IconProperty.outlined,
-            display_name: 'Add'
         }),
         new Icon({
             name: 'settings',

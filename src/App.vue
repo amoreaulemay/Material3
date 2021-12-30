@@ -4,8 +4,8 @@ import { md, EdgeInsets, TextStyle, TextAlign, MainAxisAlignment, CrossAxisAlign
 import { Container, Scaffold, CenterAligned, NavigationBar, Text, Expanded } from './components/Material/material';
 
 const bgColor = Color.dynamic({
-  light: Colors.amber.color50,
-  dark: Colors.amber.color30,
+  light: Colors.grey.color100,
+  dark: Colors.grey.color10,
 });
 const textStyle = TextStyle.copyWith({
   align: TextAlign.left
