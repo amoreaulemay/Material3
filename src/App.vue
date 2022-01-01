@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { material_theme } from './theme';
 import { md, EdgeInsets, TextStyle, TextAlign, MainAxisAlignment, CrossAxisAlignment, Colors, Color, Icon } from './lib/lib';
-import { CenterAligned, Container, Expanded, ListView, NavigationBar, Padding, Row, Scaffold, SizedBox, Text, IconView } from './components/Material/material';
+import { CenterAligned, Container, Expanded, ListView, NavigationBar, Padding, Row, Scaffold, SizedBox, Text, IconView, ListViewItem, Column, FABExpanded } from './components/Material/material';
 
 const bgColor = Color.dynamic({
 	light: Colors.grey.color100,
@@ -10,6 +10,15 @@ const bgColor = Color.dynamic({
 const textStyle = TextStyle.copyWith({
 	align: TextAlign.left,
 });
+const smallText = TextStyle.copyWith({
+	align: TextAlign.left,
+	color: Color.toDynamic(Colors.grey.color50),
+	typescale: md.sys.typescale.body_small,
+});
+
+const chevron = new Icon({ name: 'chevron_right' });
+const add = new Icon({ name: 'add' });
+const fab_text = 'Add';
 </script>
 
 <template>
@@ -18,18 +27,28 @@ const textStyle = TextStyle.copyWith({
 			<CenterAligned :theme="data">Thomas Soto Manager</CenterAligned>
 		</template>
 
+		<template #fab="{ data }">
+			<FABExpanded :icon="add" :text="fab_text" :theme="data" />
+		</template>
+
 		<template #body>
 			<Expanded>
 				<Container>
 					<Expanded>
 						<ListView>
-							<SizedBox :height="20" expanded />
-							<Padding :padding="EdgeInsets.symmetric({ vertical: 10, horizontal: 20 })" v-for="n in 15" :key="n">
-								<Row :main-axis-alignment="MainAxisAlignment.spaceBetween">
-									<Text :text-style="textStyle" contrasting>Row {{ n }}</Text>
-									<IconView :icon="new Icon({ name: 'chevron_right' })" />
-								</Row>
-							</Padding>
+							<SizedBox :height="15" expanded />
+							<ListViewItem :separator="n < 15" v-for="n in 15" :key="n">
+								<Padding :padding="EdgeInsets.symmetric({ vertical: 10, horizontal: 20 })">
+									<Row :main-axis-alignment="MainAxisAlignment.spaceBetween">
+										<Column :main-axis-alignment="MainAxisAlignment.center" :cross-axis-alignment="CrossAxisAlignment.start">
+											<Text :text-style="textStyle" contrasting>Row {{ n }}</Text>
+											<Text :text-style="smallText">Row description.</Text>
+										</Column>
+										<IconView :icon="chevron" />
+									</Row>
+								</Padding>
+							</ListViewItem>
+							<SizedBox :height="6" expanded />
 						</ListView>
 					</Expanded>
 				</Container>

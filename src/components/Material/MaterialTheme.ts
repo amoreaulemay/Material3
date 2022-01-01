@@ -1,12 +1,14 @@
 import { md, Palette, DynamicColor } from "../../lib/lib";
 import { CenterAlignedTheme } from "./AppBarsTop/CenterAligned/CenterAlignedTheme"
 import { NavigationBarTheme } from "./NavigationBar/NavigationBarTheme";
+import { FABTheme } from './FloatingActionButton/FABTheme';
 
 type AppBarTheme = CenterAlignedTheme;
 
 export interface MaterialThemeProps {
     app_bar_theme?: AppBarTheme;
     navigation_bar_theme?: NavigationBarTheme;
+    fab_theme?: FABTheme;
     palette?: Palette;
 }
 
@@ -14,6 +16,7 @@ export class MaterialTheme {
     constructor(
         public app_bar_theme: AppBarTheme = new CenterAlignedTheme(),
         public navigation_bar_theme: NavigationBarTheme = new NavigationBarTheme(),
+        public fab_theme: FABTheme = new FABTheme(),
         public palette?: Palette,
     ) {
         this.bodyStyle();
@@ -58,6 +61,7 @@ export class MaterialTheme {
         return new MaterialTheme(
             props.app_bar_theme,
             props.navigation_bar_theme,
+            props.fab_theme,
             props.palette,
         );
     }

@@ -64,6 +64,8 @@ export default defineComponent({
 	height: var(--sized-box-height);
 	width: var(--sized-box-width);
 	min-width: var(--sized-box-width);
+	max-width: var(--sized-box-width);
 	min-height: var(--sized-box-height);
+	max-height: var(--sized-box-height);
 }
 </style>

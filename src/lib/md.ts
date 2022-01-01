@@ -44,13 +44,28 @@ export namespace md {
                 dark: string;
             }
 
-            export function css(elevation: md.sys.elevation, color?: DynamicColor): css_style {
+            export function css(elevation: md.sys.elevation, color?: DynamicColor, opacity?: number): css_style {
                 let rem_value = elevation * 0.0625;
 
-                return {
-                    light: `0rem 0rem ${rem_value}rem ${color?.light.hex ?? md.sys.color.shadow.light.hex}`,
-                    dark: `0rem 0rem ${rem_value}rem ${color?.dark.hex ?? md.sys.color.shadow.dark.hex}`,
-                };
+                if (typeof opacity === 'undefined' || !(0 <= opacity && opacity <= 1)) {
+                    return {
+                        light: `0rem 0rem ${rem_value}rem ${color?.light.hex ?? md.sys.color.shadow.light.hex}`,
+                        dark: `0rem 0rem ${rem_value}rem ${color?.dark.hex ?? md.sys.color.shadow.dark.hex}`,
+                    }
+                } else {
+                    let rgb_l = color?.light.rgb ?? md.sys.color.shadow.light.rgb;
+                    let rgb_d = color?.dark.rgb ?? md.sys.color.shadow.dark.rgb;
+
+                    let rgba_light = `rgba(${rgb_l.r}, ${rgb_l.g}, ${rgb_l.b}, ${opacity})`;
+                    let rgba_dark = `rgba(${rgb_d.r}, ${rgb_d.g}, ${rgb_d.b}, ${opacity})`;
+
+                    return {
+                        light: `0rem 0rem ${rem_value}rem ${rgba_light}`,
+                        dark: `0rem 0rem ${rem_value}rem ${rgba_dark}`,
+                    }
+                }
+
+
             }
         }
 
@@ -375,6 +390,14 @@ export namespace md {
         }
 
         export namespace typescale_primitives {
+            export interface typescale_props {
+                font?: string;
+                line_height?: number;
+                size?: number;
+                tracking?: number;
+                weight?: number;
+            }
+
             abstract class typescale_glob_functions {
                 constructor(
                     public font: string,
@@ -383,6 +406,16 @@ export namespace md {
                     public tracking: number,
                     public weight: number,
                 ) { }
+
+                public copyWith(props: md.sys.typescale_primitives.typescale_props): md.sys.typescale {
+                    this.font = props.font ?? this.font;
+                    this.line_height = props.line_height ?? this.line_height;
+                    this.size = props.size ?? this.size;
+                    this.tracking = props.tracking ?? this.tracking;
+                    this.weight = props.weight ?? this.weight;
+
+                    return new md.sys.typescale_primitives.custom_text_style(this.font, this.line_height, this.size, this.tracking, this.weight);
+                }
             }
 
             export class display_large extends typescale_glob_functions {
@@ -535,6 +568,16 @@ export namespace md {
                 ) { super(font, line_height, size, tracking, weight); }
             }
 
+            export class button extends typescale_glob_functions {
+                constructor(
+                    font: string = md.ref.typescale.plain_medium,
+                    line_height: number = 36,
+                    size: number = 14,
+                    tracking: number = 0.1,
+                    weight: number = md.ref.typescale.weight_medium,
+                ) { super(font, line_height, size, tracking, weight); }
+            }
+
             export class custom_text_style extends typescale_glob_functions { }
         }
 
@@ -554,6 +597,7 @@ export namespace md {
             export let body_large = new md.sys.typescale_primitives.body_large();
             export let body_medium = new md.sys.typescale_primitives.body_medium();
             export let body_small = new md.sys.typescale_primitives.body_small();
+            export let button = new md.sys.typescale_primitives.button();
         }
 
         export type typescale =
@@ -572,6 +616,7 @@ export namespace md {
             typescale_primitives.body_large |
             typescale_primitives.body_medium |
             typescale_primitives.body_small |
+            typescale_primitives.button |
             typescale_primitives.custom_text_style;
     }
 }

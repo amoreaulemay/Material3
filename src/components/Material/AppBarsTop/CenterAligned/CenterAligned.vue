@@ -38,7 +38,7 @@ export default defineComponent({
 		return {
 			headline_font_size: this.theme.headline_theme.size * 0.0625,
 			trailing_icon: new Icon({
-				name: 'account_circle',
+				name: 'more_vert',
 			}),
 			leading_icon: new Icon({
 				name: 'menu',
