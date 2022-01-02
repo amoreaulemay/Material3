@@ -12,7 +12,16 @@ export interface MaterialThemeProps {
     palette?: Palette;
 }
 
+export interface SafeAreaInsets {
+    top?: string | number;
+    bottom?: string | number;
+    left?: string | number;
+    right?: string | number;
+}
+
 export class MaterialTheme {
+    public safe_areas: SafeAreaInsets;
+
     constructor(
         public app_bar_theme: AppBarTheme = new CenterAlignedTheme(),
         public navigation_bar_theme: NavigationBarTheme = new NavigationBarTheme(),
@@ -21,6 +30,13 @@ export class MaterialTheme {
     ) {
         this.bodyStyle();
         this.createMeta();
+
+        this.safe_areas = {
+            top: getComputedStyle(document.documentElement).getPropertyValue('--sat'),
+            bottom: getComputedStyle(document.documentElement).getPropertyValue('--sab'),
+            left: getComputedStyle(document.documentElement).getPropertyValue('--sal'),
+            right: getComputedStyle(document.documentElement).getPropertyValue('--sar'),
+        }
 
         window.__ENV_THEME__ = this;
     }
@@ -66,3 +82,7 @@ export class MaterialTheme {
         );
     }
 }
+
+export * from './FloatingActionButton/FABTheme';
+export * from './AppBarsTop/CenterAligned/CenterAlignedTheme';
+export * from './NavigationBar/NavigationBarTheme';

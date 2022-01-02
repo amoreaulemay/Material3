@@ -2,6 +2,7 @@
 import { material_theme } from './theme';
 import { md, EdgeInsets, TextStyle, TextAlign, MainAxisAlignment, CrossAxisAlignment, Colors, Color, Icon } from './lib/lib';
 import { CenterAligned, Container, Expanded, ListView, NavigationBar, Padding, Row, Scaffold, SizedBox, Text, IconView, ListViewItem, Column, FABExpanded } from './components/Material/material';
+import { ref } from '@vue/reactivity';
 
 const bgColor = Color.dynamic({
 	light: Colors.grey.color100,
@@ -17,8 +18,20 @@ const smallText = TextStyle.copyWith({
 });
 
 const chevron = new Icon({ name: 'chevron_right' });
+
+enum Views {
+	home,
+	preview,
+	settings,
+}
+
+let activeView = ref(Views.home);
+
 const add = new Icon({ name: 'add' });
-const fab_text = 'Add';
+const fab_text = 'Add Row';
+function testFab() {
+	alert('Fab was pressed!');
+}
 </script>
 
 <template>
@@ -28,7 +41,7 @@ const fab_text = 'Add';
 		</template>
 
 		<template #fab="{ data }">
-			<FABExpanded :icon="add" :text="fab_text" :theme="data" />
+			<FABExpanded :icon="add" :text="fab_text" :theme="data" @fab-pressed="testFab" />
 		</template>
 
 		<template #body>

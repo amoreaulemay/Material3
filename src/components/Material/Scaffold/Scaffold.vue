@@ -21,14 +21,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { md, EdgeInsets } from '../../../lib/lib';
-import { CATheme } from '../AppBarsTop/CenterAligned/CenterAlignedTheme';
-import { MaterialTheme } from '../MaterialTheme';
-import { NBTheme } from '../NavigationBar/NavigationBarTheme';
+import { md } from '../../../lib/lib';
+import { MaterialTheme, CATheme, NBTheme } from '../MaterialTheme';
 import { Expanded } from '../material';
+import safeAreaInsets from 'safe-area-insets';
 
-const btmInset = getComputedStyle(document.documentElement).getPropertyValue('--sab').replaceAll('px', '');
-const btmHeight = (NBTheme.properties.container.height.rem * 16 + Math.max(isNaN(+btmInset) ? 0 : +btmInset, NBTheme.properties.container.padding.bottom.rem * 16)).toString() + 'px';
+const btmInset = safeAreaInsets.support ? safeAreaInsets.bottom : 0;
+const btmHeight = (NBTheme.properties.container.height.rem * 16 + Math.max(btmInset != 0 ? btmInset : +btmInset, NBTheme.properties.container.padding.bottom.rem * 16)).toString() + 'px';
 
 export default defineComponent({
 	name: 'Scaffold',

@@ -1,5 +1,5 @@
 <template>
-	<Container :margin="fabPadding" class="flex-shrink">
+	<Container :margin="fabPadding" class="flex-shrink" @click="actionButtonPressed">
 		<div class="fab-extended flex justify-between gap-x-2 items-center p-4" :style="theme.container_theme.inline_css">
 			<IconView v-if="hasIcon" :icon="displayIcon" :color="theme.icon_theme.color" :size="theme.icon_theme.size" />
 			<Text :text-style="textStyle">{{ text }}</Text>
@@ -51,6 +51,12 @@ export default defineComponent({
 		},
 	},
 	components: { Container, IconView, Text },
+	methods: {
+		actionButtonPressed() {
+			this.$emit('fab-pressed');
+		},
+	},
+	emits: ['fab-pressed'],
 });
 </script>
 
