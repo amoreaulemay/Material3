@@ -5,7 +5,7 @@ import { Center, Expanded, Text } from '../Material/material';
 <template>
 	<Expanded>
 		<Center>
-			<Text>This is settings</Text>
+			<Text contrasting>This is settings.</Text>
 		</Center>
 	</Expanded>
 </template>

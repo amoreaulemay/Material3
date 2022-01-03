@@ -1,37 +1,35 @@
 <script setup lang="ts">
-import { material_theme } from './theme';
-import { md, EdgeInsets, TextStyle, TextAlign, MainAxisAlignment, CrossAxisAlignment, Colors, Color, Icon } from './lib/lib';
-import { CenterAligned, Container, Expanded, ListView, NavigationBar, Padding, Row, Scaffold, SizedBox, Text, IconView, ListViewItem, Column, FABExpanded } from './components/Material/material';
 import { ref } from '@vue/reactivity';
-
-const bgColor = Color.dynamic({
-	light: Colors.grey.color100,
-	dark: Colors.grey.color10,
-});
-const textStyle = TextStyle.copyWith({
-	align: TextAlign.left,
-});
-const smallText = TextStyle.copyWith({
-	align: TextAlign.left,
-	color: Color.toDynamic(Colors.grey.color50),
-	typescale: md.sys.typescale.body_small,
-});
-
-const chevron = new Icon({ name: 'chevron_right' });
-
-enum Views {
-	home,
-	preview,
-	settings,
-}
+import { material_theme } from './theme';
+import { Icon, IconProperty } from './lib/lib';
+import { CenterAligned, NavigationBar, Scaffold, FABExpanded } from './components/Material/material';
+import { Views, destinations, Home, Preview, Settings } from './components/Views/routes';
+import { FABIcon } from './components/Material/FloatingActionButton/FABIcon';
 
 let activeView = ref(Views.home);
 
-const add = new Icon({ name: 'add' });
-const fab_text = 'Add Row';
-function testFab() {
-	alert('Fab was pressed!');
+function activeViewSwitcher(new_view: Views) {
+	activeView.value = new_view;
 }
+
+const home_fab: FABIcon = {
+	icon: new Icon({ name: 'add' }),
+	text: 'Add Row',
+	callback: () => {
+		alert('FAB was pressed!');
+	},
+};
+
+const preview_fab: FABIcon = {
+	icon: new Icon({
+		name: 'publish',
+		property: IconProperty.outlined,
+	}),
+	text: 'Publish',
+	callback: () => {
+		alert('This will be published!');
+	},
+};
 </script>
 
 <template>
@@ -41,47 +39,23 @@ function testFab() {
 		</template>
 
 		<template #fab="{ data }">
-			<FABExpanded :icon="add" :text="fab_text" :theme="data" @fab-pressed="testFab" />
+			<FABExpanded :icon="home_fab.icon" :text="home_fab.text" :theme="data" @fab-pressed="home_fab.callback" v-if="activeView == Views.home" />
+			<FABExpanded :icon="preview_fab.icon" :text="preview_fab.text" :theme="data" @fab-pressed="preview_fab.callback" v-else-if="activeView == Views.preview" />
 		</template>
 
 		<template #body>
-			<Expanded>
-				<Container>
-					<Expanded>
-						<ListView>
-							<SizedBox :height="15" expanded />
-							<ListViewItem :separator="n < 15" v-for="n in 15" :key="n">
-								<Padding :padding="EdgeInsets.symmetric({ vertical: 10, horizontal: 20 })">
-									<Row :main-axis-alignment="MainAxisAlignment.spaceBetween">
-										<Column :main-axis-alignment="MainAxisAlignment.center" :cross-axis-alignment="CrossAxisAlignment.start">
-											<Text :text-style="textStyle" contrasting>Row {{ n }}</Text>
-											<Text :text-style="smallText">Row description.</Text>
-										</Column>
-										<IconView :icon="chevron" />
-									</Row>
-								</Padding>
-							</ListViewItem>
-							<SizedBox :height="6" expanded />
-						</ListView>
-					</Expanded>
-				</Container>
-			</Expanded>
+			<Home v-if="activeView == Views.home" />
+			<Preview v-else-if="activeView == Views.preview" />
+			<Settings v-else-if="activeView == Views.settings" />
 		</template>
 
 		<template #navigationBar="{ data }">
-			<NavigationBar :theme="data" />
+			<NavigationBar :theme="data" :destinations="destinations" @nb-navigation="activeViewSwitcher" />
 		</template>
 	</Scaffold>
 </template>
 
 <style>
-:root {
-	--sat: env(safe-area-inset-top);
-	--sar: env(safe-area-inset-right);
-	--sab: env(safe-area-inset-bottom);
-	--sal: env(safe-area-inset-left);
-}
-
 html,
 body {
 	height: 100%;

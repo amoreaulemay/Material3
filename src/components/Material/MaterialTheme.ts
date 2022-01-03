@@ -2,6 +2,7 @@ import { md, Palette, DynamicColor } from "../../lib/lib";
 import { CenterAlignedTheme } from "./AppBarsTop/CenterAligned/CenterAlignedTheme"
 import { NavigationBarTheme } from "./NavigationBar/NavigationBarTheme";
 import { FABTheme } from './FloatingActionButton/FABTheme';
+import safeAreaInsets from 'safe-area-insets';
 
 type AppBarTheme = CenterAlignedTheme;
 
@@ -13,10 +14,10 @@ export interface MaterialThemeProps {
 }
 
 export interface SafeAreaInsets {
-    top?: string | number;
-    bottom?: string | number;
-    left?: string | number;
-    right?: string | number;
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
 }
 
 export class MaterialTheme {
@@ -32,10 +33,10 @@ export class MaterialTheme {
         this.createMeta();
 
         this.safe_areas = {
-            top: getComputedStyle(document.documentElement).getPropertyValue('--sat'),
-            bottom: getComputedStyle(document.documentElement).getPropertyValue('--sab'),
-            left: getComputedStyle(document.documentElement).getPropertyValue('--sal'),
-            right: getComputedStyle(document.documentElement).getPropertyValue('--sar'),
+            top: safeAreaInsets.support ? safeAreaInsets.top : 0,
+            bottom: safeAreaInsets.support ? safeAreaInsets.bottom : 0,
+            left: safeAreaInsets.support ? safeAreaInsets.left : 0,
+            right: safeAreaInsets.support ? safeAreaInsets.right : 0,
         }
 
         window.__ENV_THEME__ = this;
