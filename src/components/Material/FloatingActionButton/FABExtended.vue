@@ -1,8 +1,10 @@
 <template>
 	<Container :margin="fabPadding" class="flex-shrink" @click="actionButtonPressed">
-		<div class="fab-extended flex justify-between gap-x-2 items-center p-4" :style="theme.container_theme.inline_css">
+		<div class="fab-extended flex justify-between gap-x-2 items-center p-4 transition-all" :style="theme.container_theme.inline_css" :class="collapsed ? 'fab-collapsed' : ''">
 			<IconView v-if="hasIcon" :icon="displayIcon" :color="theme.icon_theme.color" :size="theme.icon_theme.size" />
-			<Text :text-style="textStyle">{{ text }}</Text>
+			<transition name="fab-text">
+				<Text :text-style="textStyle" v-show="!collapsed">{{ text }}</Text>
+			</transition>
 		</div>
 	</Container>
 </template>
@@ -29,6 +31,10 @@ export default defineComponent({
 		text: {
 			type: String,
 			required: true,
+		},
+		collapsed: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
@@ -63,12 +69,36 @@ export default defineComponent({
 <style scoped>
 .fab-extended {
 	height: var(--fab-container-height);
-	min-width: var(--fab-container-min-width);
 	border-radius: var(--fab-container-shape);
 	background: var(--fab-container-color-light);
 	z-index: var(--fab-container-z-index);
 	pointer-events: all;
 	box-shadow: var(--fab-container-elevation-default-light);
+	min-width: var(--fab-container-min-width);
+	transition: all 0.5s ease-in-out 0s;
+}
+
+.fab-collapsed {
+	transition-delay: 0.5s;
+	min-width: 0px;
+}
+
+.fab-text-leave-active {
+	transition: all 0.5s ease-in-out 0s;
+}
+
+.fab-text-enter-active {
+	transition: all 0.5s ease-in-out 0.5s;
+}
+
+.fab-text-enter-from,
+.fab-text-leave-to {
+	opacity: 0;
+}
+
+.fab-text-enter-from {
+	width: 0px;
+	overflow: hidden;
 }
 
 @media (prefers-color-scheme: dark) {

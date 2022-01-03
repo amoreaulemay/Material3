@@ -4,7 +4,8 @@ import { material_theme } from './theme';
 import { Icon, IconProperty } from './lib/lib';
 import { CenterAligned, NavigationBar, Scaffold, FABExpanded } from './components/Material/material';
 import { Views, destinations, Home, Preview, Settings } from './components/Views/routes';
-import { FABIcon } from './components/Material/FloatingActionButton/FABIcon';
+import { FABIcon, collapse } from './components/Material/FloatingActionButton/FABIcon';
+import { Ref } from 'vue';
 
 let activeView = ref(Views.home);
 
@@ -18,6 +19,10 @@ const home_fab: FABIcon = {
 	callback: () => {
 		alert('FAB was pressed!');
 	},
+	collapsed: ref(false),
+	collapsed_cb: (containerID?: string) => {
+		collapse(containerID, home_fab.collapsed);
+	},
 };
 
 const preview_fab: FABIcon = {
@@ -29,6 +34,10 @@ const preview_fab: FABIcon = {
 	callback: () => {
 		alert('This will be published!');
 	},
+	collapsed: ref(false),
+	collapsed_cb: (containerID?: string) => {
+		collapse(containerID, preview_fab.collapsed);
+	},
 };
 </script>
 
@@ -39,12 +48,12 @@ const preview_fab: FABIcon = {
 		</template>
 
 		<template #fab="{ data }">
-			<FABExpanded :icon="home_fab.icon" :text="home_fab.text" :theme="data" @fab-pressed="home_fab.callback" v-if="activeView == Views.home" />
+			<FABExpanded :icon="home_fab.icon" :text="home_fab.text" :theme="data" @fab-pressed="home_fab.callback" v-if="activeView == Views.home" :collapsed="home_fab.collapsed.value" />
 			<FABExpanded :icon="preview_fab.icon" :text="preview_fab.text" :theme="data" @fab-pressed="preview_fab.callback" v-else-if="activeView == Views.preview" />
 		</template>
 
 		<template #body>
-			<Home v-if="activeView == Views.home" />
+			<Home v-if="activeView == Views.home" @scrolled="home_fab.collapsed_cb" />
 			<Preview v-else-if="activeView == Views.preview" />
 			<Settings v-else-if="activeView == Views.settings" />
 		</template>

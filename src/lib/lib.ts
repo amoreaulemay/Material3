@@ -7,5 +7,6 @@ export * from './Math';
 export * from './MainAxisAlignment';
 export * from './md';
 export * from './StaticImplements';
+export * from './TextListObject';
 export * from './TextStyle';
 export * from './Utilities';

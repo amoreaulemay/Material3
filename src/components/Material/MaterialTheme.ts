@@ -2,7 +2,6 @@ import { md, Palette, DynamicColor } from "../../lib/lib";
 import { CenterAlignedTheme } from "./AppBarsTop/CenterAligned/CenterAlignedTheme"
 import { NavigationBarTheme } from "./NavigationBar/NavigationBarTheme";
 import { FABTheme } from './FloatingActionButton/FABTheme';
-import safeAreaInsets from 'safe-area-insets';
 
 type AppBarTheme = CenterAlignedTheme;
 
@@ -13,16 +12,7 @@ export interface MaterialThemeProps {
     palette?: Palette;
 }
 
-export interface SafeAreaInsets {
-    top: number;
-    bottom: number;
-    left: number;
-    right: number;
-}
-
 export class MaterialTheme {
-    public safe_areas: SafeAreaInsets;
-
     constructor(
         public app_bar_theme: AppBarTheme = new CenterAlignedTheme(),
         public navigation_bar_theme: NavigationBarTheme = new NavigationBarTheme(),
@@ -31,13 +21,6 @@ export class MaterialTheme {
     ) {
         this.bodyStyle();
         this.createMeta();
-
-        this.safe_areas = {
-            top: safeAreaInsets.support ? safeAreaInsets.top : 0,
-            bottom: safeAreaInsets.support ? safeAreaInsets.bottom : 0,
-            left: safeAreaInsets.support ? safeAreaInsets.left : 0,
-            right: safeAreaInsets.support ? safeAreaInsets.right : 0,
-        }
 
         window.__ENV_THEME__ = this;
     }

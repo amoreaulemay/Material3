@@ -2,11 +2,11 @@
 	<div class="scaffold h-full w-full">
 		<slot name="appBar" :data="theme.app_bar_theme"></slot>
 
-		<main class="body-container fixed top-0 bottom-0 left-0 right-0 overflow-hidden z-0" :style="bodyContainerInlineCss" :class="$slots.navigationBar ? 'btm-margin' : ''">
+		<main class="body-container fixed top-0 bottom-0 left-0 right-0 overflow-hidden z-0 btm-margin-no-nb" :style="bodyContainerInlineCss" :class="$slots.navigationBar ? 'btm-margin' : ''">
 			<slot name="body"></slot>
 		</main>
 
-		<div class="fab-wrapper fixed top-0 left-0 right-0 bottom-0 overflow-hidden" :style="bodyContainerInlineCss" :class="$slots.navigationBar ? 'btm-margin' : ''">
+		<div class="fab-wrapper fixed top-0 left-0 right-0 bottom-0 overflow-hidden btm-margin-no-nb" :style="bodyContainerInlineCss" :class="$slots.navigationBar ? 'btm-margin' : ''">
 			<Expanded>
 				<div class="fab-container flex flex-col-reverse select-none justify-end items-end">
 					<slot name="fab" :data="theme.fab_theme"></slot>
@@ -49,14 +49,24 @@ export default defineComponent({
 <style scoped>
 .body-container {
 	margin-top: var(--body-container-margin-top);
+	margin-left: env(safe-area-inset-left);
+	margin-right: env(safe-area-inset-right);
 }
 
 .fab-wrapper {
 	margin-top: var(--body-container-margin-top);
+	margin-left: env(safe-area-inset-left);
+	margin-right: env(safe-area-inset-right);
 	pointer-events: none;
 }
 
 .btm-margin {
 	margin-bottom: calc(var(--nb-height) + max(env(safe-area-inset-bottom), var(--nb-padding)));
+}
+
+@media (orientation: landscape) and (min-width: 640px) and (max-width: 1023px) {
+	.btm-margin-no-nb {
+		margin-bottom: env(safe-area-inset-bottom) !important;
+	}
 }
 </style>

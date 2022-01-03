@@ -1,5 +1,5 @@
 <template>
-	<div class="container fixed bottom-0 left-0 max-w-full flex items-center justify-center select-none" :id="containerID" :style="theme.container_theme.inline_css">
+	<div class="container fixed bottom-0 left-0 max-w-full flex items-center justify-center select-none landscape:sm:hidden landscape:lg:flex" :id="containerID" :style="theme.container_theme.inline_css">
 		<NBSpacer />
 		<NBDestination :theme="theme.destination_theme" v-for="destination in _destinations" :key="destination.id" :destination="destination" @destination-clicked="onDestinationClicked" />
 	</div>
