@@ -1,69 +1,65 @@
 <template>
-	<Container :margin="fabPadding" class="flex-shrink" @click="actionButtonPressed">
+	<Container :margin="fabPadding" class="flex-shrink select-none" @click="model.callback">
 		<div class="fab-extended flex justify-between gap-x-2 items-center p-4 transition-all" :style="theme.container_theme.inline_css" :class="collapsed ? 'fab-collapsed' : ''">
 			<IconView v-if="hasIcon" :icon="displayIcon" :color="theme.icon_theme.color" :size="theme.icon_theme.size" />
 			<transition name="fab-text">
-				<Text :text-style="textStyle" v-show="!collapsed">{{ text }}</Text>
+				<Text :text-style="textStyle" v-show="!collapsed">{{ model.text }}</Text>
 			</transition>
 		</div>
 	</Container>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script setup lang="ts">
+import { computed, inject, PropType } from 'vue';
+import { Container, IconView, Text } from '../material';
 import { EdgeInsets, error_icon, Icon, TextStyle } from '../../../lib/lib';
-import { FABSpecs, FABTheme } from './FABTheme';
-import IconView from '../IconView/IconView.vue';
-import Container from '../Container/Container.vue';
-import Text from '../Text/Text.vue';
+import { FABSpecs } from './FABTheme';
+import { FABModel } from './FABModel';
+import { MaterialTheme } from '../MaterialTheme';
 
-export default defineComponent({
-	name: 'FABExtended',
-	props: {
-		theme: {
-			type: Object as PropType<FABTheme>,
-			default: new FABTheme(),
-		},
-		icon: {
-			type: Object as PropType<Icon>,
-			required: false,
-		},
-		text: {
-			type: String,
-			required: true,
-		},
-		collapsed: {
-			type: Boolean,
-			default: false,
-		},
+// Props
+const props = defineProps({
+	collapsed: {
+		type: Boolean,
+		default: false,
 	},
-	data() {
-		return {
-			fabPadding: EdgeInsets.all(FABSpecs.properties.container.margin.dp),
-		};
+	model: {
+		type: Object as PropType<FABModel>,
+		required: true,
 	},
-	computed: {
-		hasIcon(): boolean {
-			return typeof this.icon !== 'undefined';
-		},
-		textStyle(): TextStyle {
-			return TextStyle.copyWith({
-				color: this.theme.label_text_theme.color,
-				typescale: this.theme.label_text_theme.typescale,
-			});
-		},
-		displayIcon(): Icon {
-			return this.hasIcon ? (this.icon as Icon) : error_icon;
-		},
-	},
-	components: { Container, IconView, Text },
-	methods: {
-		actionButtonPressed() {
-			this.$emit('fab-pressed');
-		},
-	},
-	emits: ['fab-pressed'],
 });
+
+// Emits
+const emit = defineEmits<{
+	(e: 'fab-pressed'): void;
+}>();
+
+// Theme
+const theme = ((inject('theme') as MaterialTheme | undefined) ?? new MaterialTheme()).fab_theme;
+
+// Immutable Properties
+const fabPadding = EdgeInsets.all(FABSpecs.properties.container.margin.dp);
+
+// Computed Properties
+const hasIcon = computed(() => {
+	return typeof props.model.icon !== 'undefined';
+});
+
+const textStyle = computed(() => {
+	return TextStyle.copyWith({
+		color: theme.label_text_theme.color,
+		typescale: theme.label_text_theme.typescale,
+	});
+});
+
+const displayIcon = computed(() => {
+	return hasIcon.value ? (props.model.icon as Icon) : error_icon;
+});
+
+// Methods
+function actionButtonPressed() {
+	emit('fab-pressed');
+}
 </script>
 
 <style scoped>
@@ -83,22 +79,18 @@ export default defineComponent({
 	min-width: 0px;
 }
 
-.fab-text-leave-active {
-	transition: all 0.5s ease-in-out 0s;
+.fab-text-leave-active,
+.fab-text-enter-active {
+	transition: all 0.5s ease-in-out;
 }
 
 .fab-text-enter-active {
-	transition: all 0.5s ease-in-out 0.5s;
+	transition-delay: 0.5s;
 }
 
 .fab-text-enter-from,
 .fab-text-leave-to {
 	opacity: 0;
-}
-
-.fab-text-enter-from {
-	width: 0px;
-	overflow: hidden;
 }
 
 @media (prefers-color-scheme: dark) {

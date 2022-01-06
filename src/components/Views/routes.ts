@@ -13,6 +13,7 @@ export enum Views {
 export const destinations: NBDestinationItem[] = [
     NBDestinationItem.copyWith({
         linked_view: Views.home,
+        route_name: 'home',
         icon: new Icon({
             name: 'home',
             property: IconProperty.filled,
@@ -22,6 +23,7 @@ export const destinations: NBDestinationItem[] = [
     }),
     NBDestinationItem.copyWith({
         linked_view: Views.preview,
+        route_name: 'preview',
         icon: new Icon({
             name: 'preview',
             property: IconProperty.outlined,
@@ -31,6 +33,7 @@ export const destinations: NBDestinationItem[] = [
     }),
     NBDestinationItem.copyWith({
         linked_view: Views.settings,
+        route_name: 'settings',
         icon: new Icon({
             name: 'settings',
             property: IconProperty.outlined,

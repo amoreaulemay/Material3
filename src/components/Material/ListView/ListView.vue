@@ -1,26 +1,24 @@
 <template>
-	<div class="list-view flex overscroll-contain" :class="inline_class">
+	<div class="list-view flex overscroll-contain select-none" :class="inline_class">
 		<slot></slot>
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script setup lang="ts">
+import { PropType, computed } from 'vue';
 import { ListViewDirection } from '../../../lib/lib';
 
-export default defineComponent({
-	name: 'ListView',
-	props: {
-		direction: {
-			type: Number as PropType<ListViewDirection>,
-			default: ListViewDirection.column,
-		},
+// Props
+const props = defineProps({
+	direction: {
+		type: Number as PropType<ListViewDirection>,
+		default: ListViewDirection.column,
 	},
-	computed: {
-		inline_class(): string {
-			return this.direction == ListViewDirection.column ? 'column' : 'row';
-		},
-	},
+});
+
+// Computed Properties
+const inline_class = computed(() => {
+	return props.direction == ListViewDirection.column ? 'column' : 'row';
 });
 </script>
 

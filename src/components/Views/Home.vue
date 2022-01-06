@@ -1,17 +1,6 @@
 <script setup lang="ts">
-import { Column, Container, Expanded, IconView, ListView, ListViewItem, Padding, Row, SizedBox, Text } from '../Material/material';
-import { Color, Colors, CrossAxisAlignment, EdgeInsets, Icon, MainAxisAlignment, md, TextAlign, TextListObject, TextStyle } from '../../lib/lib';
-import LVTextBuilder from '../Material/ListView/LVTextBuilder.vue';
-import { v4 } from 'uuid';
-
-const textStyle = TextStyle.copyWith({
-	align: TextAlign.left,
-});
-const smallText = TextStyle.copyWith({
-	align: TextAlign.left,
-	color: Color.toDynamic(Colors.grey.color50),
-	typescale: md.sys.typescale.body_small,
-});
+import { Container, Expanded, LVTextBuilder } from '../Material/material';
+import { TextListObject } from '../../lib/lib';
 
 let rows: TextListObject[] = [];
 for (let i = 0; i < 30; i++) {
@@ -22,29 +11,11 @@ for (let i = 0; i < 30; i++) {
 		destination: 'test',
 	});
 }
-
-rows.push({
-	id: v4(),
-	primaryText: 'No Destination',
-	secondaryText: 'This has no destination',
-});
-
-rows.push({
-	id: v4(),
-	primaryText: 'No Secondary',
-	destination: 'test',
-});
-
-rows.push({
-	id: v4(),
-	primaryText: 'No Secondary & No Dest',
-});
-
-const chevron = new Icon({ name: 'chevron_right' });
 </script>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, inject } from 'vue';
+import { MaterialTheme } from '../Material/MaterialTheme';
 
 export default defineComponent({
 	emits: ['scrolled'],

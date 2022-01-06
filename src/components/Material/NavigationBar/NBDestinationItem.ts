@@ -9,11 +9,13 @@ export interface NBDestinationItemProps {
     label?: string;
     active?: boolean;
     linked_view: Views;
+    route_name: string;
 }
 
 export class NBDestinationItem {
     constructor(
         public linked_view: Views,
+        public route_name: string,
         public id: string = uuidv4(),
         public icon?: Icon,
         public label: string = 'Sample',
@@ -35,6 +37,6 @@ export class NBDestinationItem {
     }
 
     static copyWith(props: NBDestinationItemProps): NBDestinationItem {
-        return new NBDestinationItem(props.linked_view, props.id, props.icon, props.label, props.active);
+        return new NBDestinationItem(props.linked_view, props.route_name, props.id, props.icon, props.label, props.active);
     }
 }

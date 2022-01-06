@@ -4,58 +4,60 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 import { md } from '../../../lib/lib';
 
-export default defineComponent({
-	name: 'SizedBox',
-	props: {
-		height: {
-			type: Number,
-			default: 0,
-		},
-		width: {
-			type: Number,
-			default: 0,
-		},
-		expanded: {
-			type: Boolean,
-			default: false,
-		},
+// Props
+const props = defineProps({
+	height: {
+		type: Number,
+		default: 0,
 	},
-	computed: {
-		cmp_height(): string {
-			if (this.height < 0) {
-				return '0';
-			} else if (this.height == Number.POSITIVE_INFINITY) {
-				return '100%';
-			} else {
-				return this.height + 'px';
-			}
-		},
-		cmp_width(): string {
-			if (this.width < 0) {
-				return '0';
-			} else if (this.width == Number.POSITIVE_INFINITY) {
-				return '100%';
-			} else {
-				return this.width + 'px';
-			}
-		},
-		grow(): boolean {
-			return this.cmp_height === '100%' || this.cmp_width === '100%' || this.expanded;
-		},
-		css_vars(): md.ref.css_var {
-			return {
-				'--sized-box-height': this.cmp_height,
-				'--sized-box-width': this.cmp_width,
-			};
-		},
-		inline_css(): string {
-			return md.ref.generate_style(this.css_vars);
-		},
+	width: {
+		type: Number,
+		default: 0,
 	},
+	expanded: {
+		type: Boolean,
+		default: false,
+	},
+});
+
+// Computed Properties
+const cmp_height = computed(() => {
+	if (props.height < 0) {
+		return '0';
+	} else if (props.height == Number.POSITIVE_INFINITY) {
+		return '100%';
+	} else {
+		return props.height + 'px';
+	}
+});
+
+const cmp_width = computed(() => {
+	if (props.width < 0) {
+		return '0';
+	} else if (props.width == Number.POSITIVE_INFINITY) {
+		return '100%';
+	} else {
+		return props.width + 'px';
+	}
+});
+
+const grow = computed(() => {
+	return cmp_height.value === '100%' || cmp_width.value === '100%' || props.expanded;
+});
+
+const css_vars = computed<md.ref.css_var>(() => {
+	return {
+		'--sized-box-height': cmp_height.value,
+		'--sized-box-width': cmp_width.value,
+	};
+});
+
+const inline_css = computed(() => {
+	return md.ref.generate_style(css_vars.value);
 });
 </script>
 

@@ -5,8 +5,8 @@
 			<Padding :padding="listPadding" class="min-h-[48px]">
 				<Row :main-axis-alignment="mainAxisAlignment.spaceBetween">
 					<Column :main-axis-alignment="mainAxisAlignment.center" :cross-axis-alignment="crossAxisAlignment.start">
-						<Text :text-style="primaryText" contrasting>{{ element.primaryText }}</Text>
-						<Text :text-style="secondaryText" v-if="shouldDisplaySecondary(element)"> {{ element.secondaryText }}</Text>
+						<Text :text-style="element.primaryTextStyle ?? primaryText" contrasting>{{ element.primaryText }}</Text>
+						<Text :text-style="element.secondaryTextStyle ?? secondaryText" v-if="shouldDisplaySecondary(element)"> {{ element.secondaryText }}</Text>
 					</Column>
 					<IconView :icon="chevron" v-if="shouldDisplayChevron(element)" />
 				</Row>

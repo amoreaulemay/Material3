@@ -1,65 +1,60 @@
 <script setup lang="ts">
 import { ref } from '@vue/reactivity';
 import { material_theme } from './theme';
-import { Icon, IconProperty } from './lib/lib';
+import { Icon } from './lib/lib';
 import { CenterAligned, NavigationBar, Scaffold, FABExpanded } from './components/Material/material';
 import { Views, destinations, Home, Preview, Settings } from './components/Views/routes';
-import { FABIcon, collapse } from './components/Material/FloatingActionButton/FABIcon';
-import { Ref } from 'vue';
+import { collapse, FABModel } from './components/Material/FloatingActionButton/FABModel';
 
 let activeView = ref(Views.home);
 
 function activeViewSwitcher(new_view: Views) {
 	activeView.value = new_view;
+	collapsed.value = false;
 }
 
-const home_fab: FABIcon = {
-	icon: new Icon({ name: 'add' }),
+const fab_home = FABModel.new({
 	text: 'Add Row',
+	icon: new Icon({ name: 'add' }),
 	callback: () => {
 		alert('FAB was pressed!');
 	},
-	collapsed: ref(false),
-	collapsed_cb: (containerID?: string) => {
-		collapse(containerID, home_fab.collapsed);
-	},
-};
+});
 
-const preview_fab: FABIcon = {
-	icon: new Icon({
-		name: 'publish',
-		property: IconProperty.outlined,
-	}),
+const fab_preview = FABModel.new({
 	text: 'Publish',
+	icon: new Icon({ name: 'publish' }),
 	callback: () => {
 		alert('This will be published!');
 	},
-	collapsed: ref(false),
-	collapsed_cb: (containerID?: string) => {
-		collapse(containerID, preview_fab.collapsed);
-	},
-};
+});
+
+let collapsed = ref(false);
+
+function fab_collapse(containerID?: string) {
+	collapse(containerID, collapsed);
+}
 </script>
 
 <template>
 	<Scaffold :theme="material_theme">
-		<template #appBar="{ data }">
-			<CenterAligned :theme="data">Thomas Soto Manager</CenterAligned>
+		<template #appBar>
+			<CenterAligned>Thomas Soto Manager</CenterAligned>
 		</template>
 
-		<template #fab="{ data }">
-			<FABExpanded :icon="home_fab.icon" :text="home_fab.text" :theme="data" @fab-pressed="home_fab.callback" v-if="activeView == Views.home" :collapsed="home_fab.collapsed.value" />
-			<FABExpanded :icon="preview_fab.icon" :text="preview_fab.text" :theme="data" @fab-pressed="preview_fab.callback" v-else-if="activeView == Views.preview" />
+		<template #fab>
+			<FABExpanded v-if="activeView == Views.home" :model="fab_home" :collapsed="collapsed" />
+			<FABExpanded v-else-if="activeView == Views.preview" :model="fab_preview" :collapsed="collapsed" />
 		</template>
 
 		<template #body>
-			<Home v-if="activeView == Views.home" @scrolled="home_fab.collapsed_cb" />
+			<Home v-if="activeView == Views.home" @scrolled="fab_collapse" />
 			<Preview v-else-if="activeView == Views.preview" />
 			<Settings v-else-if="activeView == Views.settings" />
 		</template>
 
-		<template #navigationBar="{ data }">
-			<NavigationBar :theme="data" :destinations="destinations" @nb-navigation="activeViewSwitcher" />
+		<template #navigationBar>
+			<NavigationBar :destinations="destinations" @nb-navigation="activeViewSwitcher" />
 		</template>
 	</Scaffold>
 </template>

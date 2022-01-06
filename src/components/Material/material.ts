@@ -7,6 +7,7 @@ import FABExpanded from './FloatingActionButton/FABExtended.vue';
 import IconView from './IconView/IconView.vue';
 import ListView from './ListView/ListView.vue';
 import ListViewItem from './ListViewItem/ListViewItem.vue';
+import LVTextBuilder from './ListView/LVTextBuilder.vue';
 import NavigationBar from './NavigationBar/NavigationBar.vue';
 import Padding from './Padding/Padding.vue';
 import Row from './Row/Row.vue';
@@ -25,6 +26,7 @@ export {
     IconView,
     ListView,
     ListViewItem,
+    LVTextBuilder,
     NavigationBar,
     Padding,
     Row,

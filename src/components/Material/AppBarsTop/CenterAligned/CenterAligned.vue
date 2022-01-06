@@ -1,92 +1,92 @@
 <template>
-	<nav class="container fixed top-0 left-0 max-w-full flex items-center px-4 select-none" :style="theme.container_theme.inline_css" :id="containerID">
-		<div class="shrink leading-icon relative" :style="theme.leading_navigation_icon_theme.inline_css">
+	<nav class="container fixed top-0 left-0 max-w-full flex items-center px-4 select-none" :style="material_theme.app_bar_theme.container_theme.inline_css" :id="containerID">
+		<div class="shrink leading-icon relative" :style="material_theme.app_bar_theme.leading_navigation_icon_theme.inline_css">
 			<AppBarIcon :icon="leading_icon" />
 		</div>
 		<div class="flex-auto h-full spacer"></div>
-		<div class="flex-auto headline h-min text-center whitespace-nowrap" :style="theme.headline_theme.inline_css" ref="headline">
+		<div class="flex-auto headline h-min text-center whitespace-nowrap" :style="material_theme.app_bar_theme.headline_theme.inline_css" ref="headline">
 			<span id="headline_text" ref="headline_text" :style="`font-size: ${headline_font_size}rem`"><slot></slot></span>
 		</div>
 		<div class="flex-auto h-full spacer"></div>
-		<div class="shrink trailing-icon relative" :style="theme.trailing_icon_theme.inline_css">
+		<div class="shrink trailing-icon relative" :style="material_theme.app_bar_theme.trailing_icon_theme.inline_css">
 			<AppBarIcon :icon="trailing_icon" />
 		</div>
 	</nav>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { CenterAlignedTheme } from './CenterAlignedTheme';
-// @ts-ignore: Unreachable code error
-import { v4 as uuidv4 } from 'uuid';
+<script setup lang="ts">
+import { inject, computed, onMounted, onUnmounted } from 'vue';
+import K from '../../../../lib/Constants';
+import { MaterialTheme } from '../../MaterialTheme';
 import AppBarIcon from './AppBarIcon.vue';
-import { Icon } from '../../../../lib/Icon';
+import { v4 as uuidv4 } from 'uuid';
+import { Icon } from '../../../../lib/lib';
 
-export default defineComponent({
-	name: 'CenterAligned',
-	props: {
-		theme: {
-			type: Object as PropType<CenterAlignedTheme>,
-			default: new CenterAlignedTheme(),
-		},
-		main_view_id: {
-			type: String,
-			required: false,
-		},
+// Props
+const props = defineProps({
+	main_view_id: {
+		type: String,
+		required: false,
 	},
-	data() {
-		return {
-			headline_font_size: this.theme.headline_theme.size * 0.0625,
-			trailing_icon: new Icon({
-				name: 'more_vert',
-			}),
-			leading_icon: new Icon({
-				name: 'menu',
-			}),
-		};
-	},
-	computed: {
-		containerID(): string {
-			return uuidv4();
-		},
-	},
-	mounted() {
-		this.correctTextFontSize();
-		window.addEventListener('scroll', this.onScroll);
-		window.addEventListener('resize', this.correctTextFontSize);
-	},
-	unmounted() {
-		window.removeEventListener('scroll', this.onScroll);
-		window.removeEventListener('resize', this.correctTextFontSize);
-	},
-	methods: {
-		onScroll() {
-			let scroll = 0;
-			if (typeof this.main_view_id !== 'undefined') {
-				scroll = document.getElementById(this.main_view_id)?.scrollTop ?? 0;
-			} else {
-				scroll = window.scrollY;
-			}
-			if (scroll === 0) {
-				document.getElementById(this.containerID)?.classList.remove('on-scroll');
-			} else {
-				document.getElementById(this.containerID)?.classList.add('on-scroll');
-			}
-		},
-		correctTextFontSize() {
-			// The 176 comes from 2 elements of 48px width (96px), two side paddings of 16px (32px) and a minimum spacing of 24px between elements * 2 (48px) = 176px.
-			let max_width = screen.width - 176;
-			let elem = document.getElementById('headline_text')!;
-			if (elem.offsetWidth < max_width) {
-				this.headline_font_size = this.theme.headline_theme.size * 0.0625;
-			}
-			while (elem.offsetWidth > max_width) {
-				this.headline_font_size -= 0.01;
-				elem.style.fontSize = this.headline_font_size + 'rem';
-			}
-		},
-	},
-	components: { AppBarIcon },
+});
+
+// Theme
+const material_theme = (inject('theme') as MaterialTheme | undefined) ?? new MaterialTheme();
+
+// Computed Properties
+const containerID = computed(() => {
+	return uuidv4();
+});
+
+// Mutable Properties
+let headline_font_size = material_theme.app_bar_theme.headline_theme.size * 0.0625;
+
+// Methods
+function scroll_elevation() {
+	let scroll = 0;
+	if (typeof props.main_view_id !== 'undefined') {
+		scroll = document.getElementById(props.main_view_id)?.scrollTop ?? 0;
+	} else {
+		scroll = window.scrollY;
+	}
+	if (scroll === 0) {
+		document.getElementById(containerID.value)?.classList.remove('on-scroll');
+	} else {
+		document.getElementById(containerID.value)?.classList.add('on-scroll');
+	}
+}
+
+function correctTextFontSize() {
+	let max_width = screen.width - K.cab.fixed_width_content;
+	let elem = document.getElementById('headline_text')!;
+	if (elem.offsetWidth < max_width) {
+		headline_font_size = material_theme.app_bar_theme.headline_theme.size * 0.0625;
+	}
+	while (elem.offsetWidth > max_width) {
+		headline_font_size -= 0.01;
+		elem.style.fontSize = headline_font_size + 'rem';
+	}
+}
+
+// Lifecycle hooks
+onMounted(() => {
+	correctTextFontSize();
+	window.addEventListener('scroll', scroll_elevation);
+	window.addEventListener('resize', correctTextFontSize);
+});
+
+onUnmounted(() => {
+	window.removeEventListener('scroll', scroll_elevation);
+	window.removeEventListener('resize', correctTextFontSize);
+});
+
+// Constants
+const trailing_icon = new Icon({
+	name: 'more_vert',
+});
+
+const leading_icon = new Icon({
+	name: 'menu',
 });
 </script>
 

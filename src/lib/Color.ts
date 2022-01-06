@@ -71,10 +71,24 @@ export class Color {
         return new DynamicColor(props.light, props.dark);
     }
 
+    /**
+     * Transform the color to dynamic by making the light and dark mode the original color.
+     * 
+     * @param color The color to transform.
+     * @returns A `DynamicColor`.
+     */
     static toDynamic(color: Color): DynamicColor {
         return Color.dynamic({ light: color, dark: color });
     }
 
+    /**
+     * @deprecated
+     * This function produces inconsistent results. Use `Color.colorToLuminance` instead.
+     * 
+     * @param color The hex color.
+     * @param percent The percentage to modify the color.
+     * @returns `Color`
+     */
     static shadeColor(color: string | Color, percent: number): Color {
         let _color = typeof color === 'string' ? color : color.color;
 

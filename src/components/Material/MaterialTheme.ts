@@ -13,17 +13,27 @@ export interface MaterialThemeProps {
 }
 
 export class MaterialTheme {
+    private _body_contrasting_color: DynamicColor;
+    private _body_bg_color: DynamicColor;
+
     constructor(
         public app_bar_theme: AppBarTheme = new CenterAlignedTheme(),
         public navigation_bar_theme: NavigationBarTheme = new NavigationBarTheme(),
         public fab_theme: FABTheme = new FABTheme(),
         public palette?: Palette,
     ) {
-        this.bodyStyle();
-        this.createMeta();
+        let dark = this.palette?.colors.surface.dark ?? md.sys.color.surface.dark;
+        let light = this.palette?.colors.surface.light ?? md.sys.color.surface.light;
+
+        this._body_contrasting_color = new DynamicColor(light.inverse, dark.inverse);
+        this._body_bg_color = new DynamicColor(light, dark);
 
         window.__ENV_THEME__ = this;
+        this.bodyStyle();
+        this.createMeta();
     }
+
+    public get body_contrasting_color(): DynamicColor { return this._body_contrasting_color; }
 
     public createMeta() {
         // Check if the meta tags already exist.
@@ -48,13 +58,8 @@ export class MaterialTheme {
     }
 
     public bodyStyle() {
-        let dark = this.palette?.colors.surface.dark ?? md.sys.color.surface.dark;
-        let light = this.palette?.colors.surface.light ?? md.sys.color.surface.light;
-
-        window.__ENV_BODY__ = new DynamicColor(light.inverse, dark.inverse);
-
-        document.body.style.setProperty('--bg-color-dark', dark.hex);
-        document.body.style.setProperty('--bg-color-light', light.hex);
+        document.body.style.setProperty('--bg-color-dark', this._body_bg_color.dark.hex);
+        document.body.style.setProperty('--bg-color-light', this._body_bg_color.light.hex);
     }
 
     static copyWith(props: MaterialThemeProps): MaterialTheme {
